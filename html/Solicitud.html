@@ -7,63 +7,10 @@
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"></script>
       <link rel="stylesheet" href="../css/Navbar_y_slider.css">
+      <link rel="stylesheet" href="/css/Solicitud_html/general.css">
 
-      <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const renovacionInput = document.getElementById('Renovacion');
-            const lockerAnterior = document.getElementById('lockerAnterior');
-            const EleccionCURP = document.getElementById('EleccionCURP');
-            const botonRegistrar = document.getElementById('Registrar');
-            const botonLimpiar = document.getElementById('Limpiar');
-            const registroInput = document.getElementById('Registro');
-            const EleccionNombre = document.getElementById('EleccionNombre');
-            const EleccionTelefono = document.getElementById('EleccionTelefono');
-            const PrimerApellido = document.getElementById('PrimerApellido');
-            const SegundoApellido = document.getElementById('SegundoApellido');
-            const EleccionCorreo = document.getElementById('EleccionCorreo');
-            const EleccionBoleta = document.getElementById('EleccionBoleta');
-            const EleccionEstatura = document.getElementById('EleccionEstatura');
-            const EleccionCredencial = document.getElementById('EleccionCredencial');
-            const EleccionHorario = document.getElementById('EleccionHorario');
-            const EleccionUsuario = document.getElementById('EleccionUsuario');
-            const EleccionContraseña = document.getElementById('EleccionContraseña');
-
-            renovacionInput.addEventListener('click', function () {
-                lockerAnterior.style.display = renovacionInput.checked ? 'block' : 'none';
-                botonRegistrar.style.display= renovacionInput.checked ? 'block' : 'none';
-                botonLimpiar.style.display = renovacionInput.checked ? 'block' : 'none';
-                mostrarCamposRegistro();
-            });
-
-            registroInput.addEventListener('click', function () {
-                botonRegistrar.style.display = 'block';
-                botonLimpiar.style.display = 'block';
-                lockerAnterior.style.display = 'none';
-                mostrarCamposRegistro();
-            });
-
-            function mostrarCamposRegistro() {
-                EleccionCURP.style.display = 'block';
-                EleccionNombre.style.display = 'block';
-                EleccionTelefono.style.display = 'block';
-                PrimerApellido.style.display = 'block';
-                SegundoApellido.style.display = 'block';
-                EleccionCorreo.style.display = 'block';
-                EleccionBoleta.style.display = 'block';
-                EleccionEstatura.style.display = 'block';
-                EleccionCredencial.style.display = 'block';
-                EleccionHorario.style.display = 'block';
-                EleccionUsuario.style.display = 'block';
-                EleccionContraseña.style.display = 'block';
-            }
-        });
-    </script>
-
-    <style>
-        #Formulario {
-            margin-top: 50px;
-        }
-    </style>
+      <script src="/js/Solicitud_html/limpiar_form.js"></script>
+      <script src="/js/Solicitud_html/MostarOcultarCamposFormulario.js"></script>
 
   </head>
   <body> 
@@ -221,85 +168,6 @@
           </div>
         </div>
     </div>
-    <script>
-      function LimpiarFormulario() {
-        const inputs = document.querySelectorAll('#Formulario input');
-        const esRenovacion = document.getElementById('Renovacion').checked;
-        const esRegistro = document.getElementById('Registro').checked;
-        
-        inputs.forEach(input =>{
-          input.value=''  //asignamos cadena vacia a cada elemento
-          input.classList.remove('is-valid', 'is-invalid');
-        });
-
-        //arreglo con todos los IDs de todos los campos 
-        const camposOcultos = [
-        'lockerAnterior',         
-        'EleccionNombre',         
-        'EleccionTelefono',       
-        'PrimerApellido',          
-        'SegundoApellido',         
-        'EleccionCorreo',          
-        'EleccionBoleta',          
-        'EleccionEstatura',        
-        'EleccionCredencial',      
-        'EleccionHorario',         
-        'EleccionUsuario',         
-        'EleccionContraseña',
-        'EleccionCURP'       
-        ]
-
-        if(esRenovacion){
-          const lockerAnterior= document.getElementById('lockerAnterior');
-          if(lockerAnterior){
-            lockerAnterior.style.display='block'
-          }
-          MostrarCamposRegistro();
-
-          document.getElementById('Registrar').style.display = 'block';  
-          document.getElementById('Limpiar').style.display = 'block';
-        }
-        else if(esRegistro){
-          MostrarCamposRegistro();
-          document.getElementById('Registrar').style.display = 'block';
-          document.getElementById('Limpiar').style.display = 'block';
-        }
-        else{
-            camposOcultos.forEach(campo=>{
-            const elemento= document.getElementById(campo);
-            if (elemento){
-              elemento.style.display= 'none';
-            }
-          });
-          document.getElementById('Registrar').style.display = 'none';
-          document.getElementById('Limpiar').style.display = 'none';
-        }
-      };
-
-      function MostrarCamposRegistro(){
-        const CamposRegistros=[        
-        'EleccionNombre',         
-        'EleccionTelefono',    
-        'PrimerApellido',         
-        'SegundoApellido',       
-        'EleccionCorreo',         
-        'EleccionBoleta',          
-        'EleccionEstatura',       
-        'EleccionCredencial',     
-        'EleccionHorario',      
-        'EleccionUsuario',         
-        'EleccionContraseña',
-        'EleccionCURP'      
-        ]
-        
-        CamposRegistros.forEach(campo =>{
-          const elementoVisible= document.getElementById(CamposRegistros);
-          if(elementoVisible){
-            elementoVisible.style.display= 'block'
-          }
-        })
-      };
-    </script>
 
     <!--Validaciones-->
     <script>
@@ -402,27 +270,52 @@
           alert('Hay errores en el formulario');
           event.preventDefault(); //no enviadmos el formulario si hay errores
         }else{
-          alert('Formulario válido, enviando datos');
+          //emepzamos a recopilar los datos 
+          const tipoDeSolicitud = document.getElementById('Renovacion').checked? 'Renovación': 'Registro';
+          const casilleroAnterior = document.getElementById('CasilleroAnterior')?.value || 'N/A';
+          const datos={
+            'Tipo de Solicitud': tipoDeSolicitud,
+            'Casillero Anterior': casilleroAnterior,
+            'CURP': document.getElementById('CURP').value,
+            'Nombre': document.getElementById('Nombre').value,
+            'Primer Apellido': document.getElementById('ApellidoPaterno').value,
+            'Segundo Apellido': document.getElementById('ApellidoMaterno').value,
+            'Telefono': document.getElementById('Telefono').value,
+            'Correo': document.getElementById('Correo').value,
+            'Boleta': document.getElementById('Boleta').value,
+            'Estatura': document.getElementById('Estatura').value,
+            'Credencial': document.getElementById('Credencial').value,
+            'Horario': document.getElementById('Horario').value,
+            'Usuario': document.getElementById('Usuario').value,
+            'Contraseña': document.getElementById('Contraseña').value
+          };
+          //mostramos los datos en un modal
+          let contenidoHTML='';
+          for(const propiedad in datos){
+            contenidoHTML+=`<p><strong>${propiedad}:</strong> ${datos[propiedad]}</p>`;
+          }
+
+          //insertamos el contenido en el modal
+          document.getElementById('DatosModal').querySelector('.modal-body').innerHTML=contenidoHTML;
+          const modal = new bootstrap.Modal(document.getElementById('DatosModal'));
+          modal.show();
         }
       }
       });
     </script>
 
-    <div class="modal" tabindex="-1" role="dialog" id="DatosModal">
-      <div class="modal-dialog" role="document">
+    <div class="modal fade" id="DatosModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Verificacion de datos</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <h5 class="modal-title" id="modalLabel">Verificación de datos</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>Modal body text goes here.</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Save changes</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Guardar cambios</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           </div>
         </div>
       </div>
