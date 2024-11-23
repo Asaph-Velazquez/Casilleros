@@ -12,6 +12,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const renovacionInput = document.getElementById('Renovacion');
             const lockerAnterior = document.getElementById('lockerAnterior');
+            const EleccionCURP = document.getElementById('EleccionCURP');
             const botonRegistrar = document.getElementById('Registrar');
             const botonLimpiar = document.getElementById('Limpiar');
             const registroInput = document.getElementById('Registro');
@@ -42,6 +43,7 @@
             });
 
             function mostrarCamposRegistro() {
+                EleccionCURP.style.display = 'block';
                 EleccionNombre.style.display = 'block';
                 EleccionTelefono.style.display = 'block';
                 PrimerApellido.style.display = 'block';
@@ -120,6 +122,11 @@
         <div id="lockerAnterior" class="mb-3" style="display: none;">
           <label for="CasilleroAnterior" class="form-check-label">Número de Casillero Anterior</label>
           <input type="text" class="form-control" id="CasilleroAnterior" placeholder="Ingrese el número de su Casillero Anterior">
+        </div>
+
+        <div id="EleccionCURP" class="mb-3" style="display: none;">
+          <label for="CURP" class="form-check-label">CURP</label>
+          <input type="text" class="form-control" id="CURP" placeholder="Ingrese su CURP">
         </div>
 
         <div class="row"> 
@@ -324,13 +331,9 @@
             regex: /^[0-2]\.[0-9]{2}$/,
             mensaje: "La estatura debe tener el formato X.XX"
         },
-        Usuario: {
-            regex: /^[a-zA-Z0-9áéíóúÁÉÍÓÚ]{3,20}$/,
-            mensaje: "El usuario debe tener entre 3 y 20 caracteres alfanuméricos"
-        },
-        Contraseña: {
-            regex: /^[a-zA-Z0-9áéíóúÁÉÍÓÚ]{2,20}$/,
-            mensaje: "La contraseña debe tener entre 2 y 20 caracteres"
+        CURP:{
+            regex: /^[A-Z]{1}[AEIOUX]{1}[A-Z]{2}\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])[HM](AS|BC|BS|CC|CS|CH|CL|CM|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[B-DF-HJ-NP-TV-Z]{3}[0-9A-Z]{1}\d{1}$/,
+            mensaje: "El CURP debe tener el formato AAAA######HMAAAANNA"
         }
         };
 
@@ -402,5 +405,26 @@
       }
       });
     </script>
+
+    <div class="modal" tabindex="-1" role="dialog" id="DatosModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Verificacion de datos</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Modal body text goes here.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
   </body>
   </html>
