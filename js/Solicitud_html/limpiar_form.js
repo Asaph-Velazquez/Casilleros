@@ -22,7 +22,7 @@ function LimpiarFormulario() {
     'EleccionHorario',         
     'EleccionUsuario',         
     'EleccionContraseña',
-    'EleccionCURP'       
+    'EleccionCURP',       
     ]
 
     if(esRenovacion){

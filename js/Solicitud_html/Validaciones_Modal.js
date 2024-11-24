@@ -30,6 +30,14 @@ const validaciones = {
     CURP: {
         regex: /^[A-Z]{1}[AEIOUX]{1}[A-Z]{2}\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])[HM](AS|BC|BS|CC|CS|CH|CL|CM|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[B-DF-HJ-NP-TV-Z]{3}[0-9A-Z]{1}\d{1}$/,
         mensaje: "El CURP debe tener el formato AAAA######HMAAAANNA"
+    },
+    Usuario:{
+        regex: /^.{4,}$/,
+        mensaje: "El usuario debe tener almenos 4 caracteres"
+    },
+    Contraseña:{
+        regex: /^.{8,}$/,
+        mensaje: "La contraseña debe tener al menos 8 caracteres"
     }
 };
 
