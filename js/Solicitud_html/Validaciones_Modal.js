@@ -43,7 +43,7 @@ const validaciones = {
 
 function validarCampo(campo) {
     // Si el campo está oculto o es un archivo, no lo validamos
-    if (campo.type === 'file' || !campo.offsetParent || campo.style.display === 'none') {
+    if (campo.type === 'file' || campo.style.display === 'none') {
         return true;
     }
 
