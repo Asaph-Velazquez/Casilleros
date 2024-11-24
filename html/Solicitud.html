@@ -5,29 +5,16 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>.::Solicitud de Casillero::.</title>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+      <link rel="stylesheet" href="../css/Navbar_y_slider.css">
+      <link rel="stylesheet" href="/css/Solicitud_html/general.css">
 
-      <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const renovacionInput = document.getElementById('Renovacion');
-            const lockerAnterior = document.getElementById('lockerAnterior');
-            const botonRegistrar = document.getElementById('Registrar');
-            const botonLimpiar = document.getElementById('Limpiar');
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-            const registroInput = document.getElementById('Registro');
-            const EleccionNombre = document.getElementById('EleccionNombre');
-            const EleccionTelefono = document.getElementById('EleccionTelefono');
-            const PrimerApellido = document.getElementById('PrimerApellido');
-            const SegundoApellido = document.getElementById('SegundoApellido');
-            const EleccionCorreo = document.getElementById('EleccionCorreo');
-            const EleccionBoleta = document.getElementById('EleccionBoleta');
-            const EleccionEstatura = document.getElementById('EleccionEstatura');
-            const EleccionCredencial = document.getElementById('EleccionCredencial');
-            const EleccionHorario = document.getElementById('EleccionHorario');
-            const EleccionUsuario = document.getElementById('EleccionUsuario');
-            const EleccionContraseña = document.getElementById('EleccionContraseña');
+      <script src="/js/Solicitud_html/limpiar_form.js"></script>
+      <script src="/js/Solicitud_html/MostarOcultarCamposFormulario.js"></script>
+      <script src="/js/Solicitud_html/Validaciones_Modal.js"></script>
 
+<<<<<<< HEAD
             renovacionInput.addEventListener('click', function () {
                 lockerAnterior.style.display = renovacionInput.checked ? 'block' : 'none';
                 botonRegistrar.style.display= renovacionInput.checked ? 'block' : 'none';
@@ -113,90 +100,46 @@
       }
       
     </style>  
+=======
+>>>>>>> 3d3ba6364303b953d5f142ff608492268dc10df7
   </head>
-  <body>
-    
+  <body> 
     <div class="d-flex justify-content-between align-items-center py-3 px-4">
-      <img src="/imgs/logoEscom.png" alt="Logo ESCOM" class="logo">
-      <p id="Encabezado"> 
-        Escuela Superior de Cómputo 
-      <br>
-      Sistema de control de casilleros</p>
-
-      <img src="/imgs/logoIPN.png" alt="Logo IPN" class="logo">
-  </div>
-  <!--NAVBAR-->
+        <a href="https://www.escom.ipn.mx/"><img src="/imgs/logoEscom.png" alt="Logo ESCOM" class="logo"></a>
+        <p id="Encabezado" style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"> 
+          Escuela Superior de Cómputo 
+        <br>
+        Sistema de control de casilleros</p>
+        <a href="https://www.ipn.mx/"><img src="/imgs/logoIPN.png" alt="Logo IPN" class="logo"></a>
+    </div>
+    <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg">
-      <div class="container-fluid">
-          
-          
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="#Encabezado">Inicio</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#Formulario">Solicitud</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="acuse">Acuse</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="admin">Admin</a>
-                  </li>
-              
-          </div>
-      </div>
-  </nav>
-
-<div id="noticiasSlider" class="carousel slide" data-bs-ride="carousel">
-
-  <div class="carousel-indicators">
-      <button type="button" data-bs-target="#noticiasSlider" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Noticia1"></button>
-      <button type="button" data-bs-target="#noticiasSlider" data-bs-slide-to="1" aria-label="Noticia2"></button>
-      <button type="button" data-bs-target="#noticiasSlider" data-bs-slide-to="2" aria-label="Noticia3"></button>
-  </div>
-
-  <!-- Slider -->
-  <div class="carousel-inner">
-
-      <div class="carousel-item active">
-          <img src="/imgs/Noticia1.png" class="d-block w-100" alt="Noticia 1">
-          <div class="carousel-caption">
-              <h5>Bienvenido</h5>
-          
-          </div>
-      </div>
-      <div class="carousel-item">
-          <img src="/imgs/Noticia2.png" class="d-block w-100" alt="Noticia 2">
-          <div class="carousel-caption">
-              <h5>Aviso</h5>
-          </div>
-      </div>
-      <div class="carousel-item">
-          <img src="/imgs/Noticia3.jpg" class="d-block w-100" alt="Noticia 3">
-          <div class="carousel-caption">
-              <h5>Información</h5>
-          </div>
-      </div>
-  </div>
-
-
-  <button class="carousel-control-prev" type="button" data-bs-target="#noticiasSlider" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Anterior</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#noticiasSlider" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Siguiente</span>
-  </button>
-</div>
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="PagPrincipal.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Solicitud.html">Solicitud</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="acuse">Acuse</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin">Admin</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <!--FORMULARIO-->
     <div class="container mt-4" id="Formulario">
+      <form id="solicitudForm">
       <h2>Solicitud de Casillero</h2>
         <div class="mb-3">
           <label class="form-label">Tipo de Solicitud</label>
@@ -216,7 +159,13 @@
 
         <div id="lockerAnterior" class="mb-3" style="display: none;">
           <label for="CasilleroAnterior" class="form-check-label">Número de Casillero Anterior</label>
-          <input type="text" class="form-control" id="CasilleroAnterior" placeholder="Ingrese el número de su Casillero Anterior">
+          <input type="number" class="form-control" id="CasilleroAnterior" placeholder="Ingrese el número de su Casillero Anterior">
+        </div>
+
+        <div id="EleccionCURP" class="mb-3" style="display: none;">
+          <label for="CURP" class="form-check-label">CURP</label>
+          <input type="text" class="form-control" id="CURP" placeholder="Ingrese su CURP">
+          <div class="mensaje-invalido"></div>
         </div>
 
         <div class="row"> 
@@ -224,12 +173,14 @@
             <div id="EleccionNombre" class="mb-3" style="display: none;">
               <label for="Nombre" class="form-label">Nombre</label>
               <input type="text" class="form-control" id="Nombre" placeholder="Ingresa tu nombre">
+              <div class="mensaje-invalido"></div>
             </div>
           </div>
           <div class="col-md-4 mb-3">
             <div id="PrimerApellido" class="mb-3" style="display: none;">
               <label for="ApellidoPaterno" class="form-label">Primer Apellido</label>
               <input type="text" class="form-control" id="ApellidoPaterno" placeholder="Ingresa tu Primer Apellido">
+              <div class="mensaje-invalido"></div>
             </div>
           </div>
 
@@ -237,6 +188,7 @@
             <div id="SegundoApellido" class="mb-3" style="display: none;">
               <label for="ApellidoMaterno" class="form-label">Segundo Apellido</label>
               <input type="text" class="form-control" id="ApellidoMaterno" placeholder="Ingresa tu Segundo Apellido">
+              <div class="mensaje-invalido"></div>
             </div>
           </div>
         </div>
@@ -246,12 +198,14 @@
             <div id="EleccionTelefono" class="mb-3" style="display: none;">
               <label for="Telefono" class="form-label">Telefono</label>
               <input type="number" class="form-control" id="Telefono" placeholder="55...">
+              <div class="mensaje-invalido"></div>
             </div>
           </div>
           <div class="col-md-6 mb-3">
             <div id="EleccionCorreo" class="mb-3" style="display: none;">
               <label for="Correo" class="form-label">Correo Institucional</label>
               <input type="email" class="form-control" id="Correo" placeholder="abc@alumno.ipn.mx">
+              <div class="mensaje-invalido"></div>
             </div>
           </div>
         </div>
@@ -261,6 +215,7 @@
             <div id="EleccionBoleta" class="mb-3" style="display: none;">
               <label for="Boleta" class="form-label">Boleta</label>
               <input type="number" class="form-control" id="Boleta" placeholder="2018...">
+              <div class="mensaje-invalido"></div>
             </div>
           </div>
 
@@ -268,6 +223,7 @@
             <div id="EleccionEstatura" class="mb-3" style="display: none;">
               <label for="Estatura" class="form-label">Estatura</label>
               <input type="number" class="form-control" id="Estatura" placeholder="1.70">
+              <div class="mensaje-invalido"></div>
             </div>
           </div>
         </div>
@@ -282,7 +238,7 @@
         
           <div class="col-md-6 mb-3">
             <div id="EleccionHorario" class="mb-3" style="display: none;">
-              <label for="Horario" class="form-label">Horario de Entrega</label>
+              <label for="Horario" class="form-label">Horario (PDF)</label>
               <input type="file" class="form-control" id="Horario" placeholder="Sube tu horario del SAES">
             </div>
           </div>
@@ -293,6 +249,7 @@
             <div id="EleccionUsuario" class="mb-3" style="display: none;">
               <label for="Usuario" class="form-label">Usuario</label>
               <input type="text" class="form-control" id="Usuario" placeholder="Ingresa tu Usuario">
+              <div class="mensaje-invalido"></div>
             </div>
           </div>
 
@@ -300,171 +257,37 @@
             <div id="EleccionContraseña" class="mb-3" style="display: none;">
               <label for="Contraseña" class="form-label">Contraseña</label>
               <input type="password" class="form-control" id="Contraseña" placeholder="Ingresa tu Contraseña">
+              <div class="mensaje-invalido"></div>
             </div>
           </div>
         </div>
 
         <div class="row mt-4">
           <div class="col d-flex justify-content-between">
-            <button type="submit" class="btn btn-primary" id="Registrar"  style="display: none;">Registrar Solicitud</button>
+            <button type="button" class="btn btn-primary" id="Registrar"  style="display: none;" onclick="subida();">Registrar Solicitud</button>
             <button type="reset" class="btn btn-warning" id="Limpiar"  style="display: none;" onclick="LimpiarFormulario();">Limpiar</button>
           </div>
         </div>
+      </form>
     </div>
-    <script>
-      function LimpiarFormulario() {
-        const inputs = document.querySelectorAll('#Formulario input');
-        const esRenovacion = document.getElementById('Renovacion').checked;
-        const esRegistro = document.getElementById('Registro').checked;
-        
-        inputs.forEach(input =>{
-          input.value=''  //asignamos cadena vacia a cada elemento
-          input.classList.remove('is-valid', 'is-invalid');
-        });
-
-        //arreglo con todos los IDs de todos los campos 
-        const camposOcultos = [
-        'lockerAnterior',         
-        'EleccionNombre',         
-        'EleccionTelefono',       
-        'PrimerApellido',          
-        'SegundoApellido',         
-        'EleccionCorreo',          
-        'EleccionBoleta',          
-        'EleccionEstatura',        
-        'EleccionCredencial',      
-        'EleccionHorario',         
-        'EleccionUsuario',         
-        'EleccionContraseña'       
-        ]
-
-        if(esRenovacion){
-          const lockerAnterior= document.getElementById('lockerAnterior');
-          if(lockerAnterior){
-            lockerAnterior.style.display='block'
-          }
-          MostrarCamposRegistro();
-
-          document.getElementById('Registrar').style.display = 'block';
-          document.getElementById('Limpiar').style.display = 'block';
-        }
-        else if(esRegistro){
-          MostrarCamposRegistro();
-          document.getElementById('Registrar').style.display = 'block';
-          document.getElementById('Limpiar').style.display = 'block';
-        }
-        else{
-            camposOcultos.forEach(campo=>{
-            const elemento= document.getElementById(campo);
-            if (elemento){
-              elemento.style.display= 'none';
-            }
-          });
-          document.getElementById('Registrar').style.display = 'none';
-          document.getElementById('Limpiar').style.display = 'none';
-        }
-      };
-
-      function MostrarCamposRegistro(){
-        const CamposRegistros=[        
-        'EleccionNombre',         
-        'EleccionTelefono',    
-        'PrimerApellido',         
-        'SegundoApellido',       
-        'EleccionCorreo',         
-        'EleccionBoleta',          
-        'EleccionEstatura',       
-        'EleccionCredencial',     
-        'EleccionHorario',      
-        'EleccionUsuario',         
-        'EleccionContraseña'      
-        ]
-        
-        CamposRegistros.forEach(campo =>{
-          const elementoVisible= document.getElementById(CamposRegistros);
-          if(elementoVisible){
-            elementoVisible.style.display= 'block'
-          }
-        })
-      };
-    </script>
-
-
-
-
-
-    <!--Validaciones-->
-    <script>
-      //objeto para trabajar con validaciones
-      const validaciones = {
-          Nombre:{
-              regex: /^[a-zA-Z\s]{3,30}$/,
-              mensaje: "El nombre debe tener entre 3 y 30 caracteres"
-          },
-          PrimerApellido:{
-              regex: /^[a-zA-Z\s]{3,30}$/,
-              mensaje: "El apellido debe tener entre 3 y 30 caracteres"
-          },
-          SegundoApellido:{
-              regex: /^[a-zA-Z\s]{3,30}$/,
-              mensaje: "El apellido debe tener entre 3 y 30 caracteres"
-          },
-          Telefono:{
-              regex: /^[0-9]{10}$/,
-              mensaje: "El telefono debe tener 10 digitos"
-          },
-          EleccionCorreo:{
-              regex: /^[a-zA-Z0-9]+@alumno\.ipn\.mx$/,
-              mensaje: "El correo debe tener el formato"
-          },
-          EleccionBoleta:{
-              regex: /^20[0-9]{8}$/,
-              mensaje: "La boleta debe tener el formato 20XXXXXXXX"
-          },
-          EleccionEstatura:{
-              regex: /^[0-2]\.[0-9]{2}$/,
-              mensaje: "La estatura debe tener el formato X.XX"
-          },
-          EleccionUsuario:{
-              regex: /^[a-zA-Z0-9]{6,20}$/,
-              mensaje: "El usuario debe tener entre 6 y 20 caracteres"
-          },
-          EleccionContraseña:{
-              regex: /^[a-zA-Z0-9]{6,20}$/,
-              mensaje: "La contraseña debe tener entre 6 y 20 caracteres"
-          }
-      };
-      
-    // Función para validar un campo
-    function validarCampo(campo, validacion) {
-        const valor = campo.value.trim();
-        const errorDiv = campo.nextElementSibling; // Div para el mensaje de error
-        
-        if (!validacion.regex.test(valor)) {
-            campo.classList.add('is-invalid');
-            campo.classList.remove('is-valid');
-            errorDiv.textContent = validacion.mensaje;
-            return false;
-        } else {
-            campo.classList.remove('is-invalid');
-            campo.classList.add('is-valid');
-            errorDiv.textContent = '';
-            return true;
-        }
-    }
-
-    // Función para validar todos los campos
-    function validarCAmpo(){
-      const valor= input.value;
-      const validacion= validaciones[tipo];
-
-      if(!validacion){
-        console.error('No existe validacion para el campo', tipo);
-        return false;
-      }
-
-      const esValido=  validacion.regex.test(valor);
-    }
-    </script>
+    
+    <!--MODAL-->
+    <div class="modal fade" id="DatosModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">Verificación de datos</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" onclick="datosSubidos();">Guardar cambios</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
   </body>
   </html>
