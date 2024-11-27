@@ -14,6 +14,7 @@
     position: relative;
 
 }
+
 .contenido-imagen{
    position: absolute;
    width: 100%;
@@ -21,6 +22,11 @@
    display: flex;
    justify-content: space-between;
    align-items: center;
+   z-index: 1;
+}
+a{
+    z-index: 5;
+    position: relative;
 }
 
 .encabezado {
@@ -42,105 +48,5 @@ h1{
     font-size: 25px;
 }
 
-.noticias{
-    width: 1250px;
-    height: auto;
-    margin: 50px auto 0;
-    overflow: hidden;
-
-}
 
 
-.noticias ul{
-    display: flex;
-    align-items: center;
-    padding: 0;
-    width: 400%;
-    animation: slide 20s infinite alternate ease-in-out;
-
-}
-
-.noticias li{
-    width: 100%;
-    list-style: none;
-    position: relative;
-
-}
-.noticia{
-    position: absolute;
-    text-align: center;
-    top: 250px;
-    display: flex;
-    align-items: center;
-    color: white;
-}
-.noticia p{
-    margin-bottom: 500px;
-    flex-direction: column;
-    align-content: center;
-    background-color: rgba(0, 0, 0, 0.3); /*Esta es una opción */
-
-}
-.noticia h2{
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    background-color: rgba(0, 0, 0, 0.3);
-    font-size: 45px;
-
-}
-
-.noticias img{
-    height: 500px;
-    width: 100%;
-
-}
-
-
-
-@keyframes slide{
-    0% {
-        margin-left: 0;
-    }
-    20% {
-        margin-left: 0;
-    }
-    25%{
-        margin-left: -100%;
-    }
-    45%{
-        margin-left: -100%;
-    }
-    50%{
-        margin-left: -200%;
-    }
-    70%{
-        margin-left: -200%;
-    }
-    75%{
-        margin-left: -300%;
-    }
-    100%{
-        margin-left: -300%;
-    }
-}
-@media (max-width:990px ) {
-    body{
-        padding: 30px;
-    }
-    .noticias{
-        width: 100%;
-    }
-    .noticia{
-        top: 50px;
-        padding: 0;
-    }
-    .noticia h2{
-        font-size: 35px;
-        margin-bottom: 15px;
-    }
-    .noticia p{
-        font-size: 15px;
-    }
-
-}
