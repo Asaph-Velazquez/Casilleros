@@ -2,7 +2,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
 }
 
 .imagen{
@@ -50,3 +49,16 @@ h1{
 
 
 
+@media (max-width:750px ) {
+    .contenido-imagen img{
+        width: 50%;
+    
+    }
+    .pag2{
+        text-align: right;
+    }
+    .pag1{
+        text-align: left;
+    }
+
+}
