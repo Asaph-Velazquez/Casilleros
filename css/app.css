@@ -54,11 +54,21 @@ h1{
         width: 50%;
     
     }
-    .pag2{
-        text-align: right;
-    }
     .pag1{
         text-align: left;
     }
+    .pag1 img{
+       margin-top: 50px;
+        width: 100%;
+    }
+       
+    .pag2{
+        text-align: right;
+    }
+    .pag2 img{
+        margin-top: 50px;
+        height: 100%;
+    }
+    
 
 }
