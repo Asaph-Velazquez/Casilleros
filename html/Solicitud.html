@@ -117,7 +117,7 @@
         <div class="row">
           <div class="col-md-6 mb-3">
             <div id="EleccionTelefono" class="mb-3" style="display: none;">
-              <label for="Telefono" class="form-label">Telefono</label>
+              <label for="Telefono" class="form-label">Teléfono</label>
               <input type="number" class="form-control" id="Telefono" placeholder="55...">
               <div class="mensaje-invalido"></div>
             </div>
@@ -153,14 +153,16 @@
           <div class="col-md-6 mb-3">
             <div id="EleccionCredencial" class="mb-3" style="display: none;">
               <label for="Credencial" class="form-label">Credencial Vigente del IPN (PDF)</label>
-              <input type="file" class="form-control" id="Credencial" placeholder="Sube tu Credencial">
+              <input type="file" class="form-control" id="Credencial" placeholder="Sube tu Credencial" accept=".PDF">
+              <div class="mensaje-invalido"></div>
             </div>
           </div>
         
           <div class="col-md-6 mb-3">
             <div id="EleccionHorario" class="mb-3" style="display: none;">
               <label for="Horario" class="form-label">Horario (PDF)</label>
-              <input type="file" class="form-control" id="Horario" placeholder="Sube tu horario del SAES">
+              <input type="file" class="form-control" id="Horario" placeholder="Sube tu horario del SAES" accept=".PDF">
+              <div class="mensaje-invalido"></div>
             </div>
           </div>
         </div>
