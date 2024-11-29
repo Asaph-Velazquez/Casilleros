@@ -172,3 +172,13 @@ document.addEventListener('DOMContentLoaded', function() {
 function datosSubidos(){
     alert('Datos subidos correctamente');
 }
+
+function validarLogin(){
+    let campos = document.querySelectorAll('.form input');
+    let valido = true;
+    for(let i = 0; i < campos.length && valido; i++){
+        if(campos[i].value == '') valido = false;
+
+    }
+    document.getElementById('mensaje-incompleto').innerHTML = valido? '' : 'Complete los campos faltantes';
+}
