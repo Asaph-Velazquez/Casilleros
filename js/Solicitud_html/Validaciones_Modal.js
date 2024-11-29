@@ -86,7 +86,7 @@ function validarFormulario() {
     return esValido;
 }
 
-function subida() {
+function subida(){
     const formularioValido = validarFormulario();
     if (!formularioValido) {
         alert('Por favor, corrija los errores en el formulario');
