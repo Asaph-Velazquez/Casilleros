@@ -58,17 +58,17 @@
 
     <main>
         <div class="form-padre">
-            <form class="form">
+            <form class="form" autocomplete="off">
                 <span class="title">Iniciar Sesión</span>
                 <span class="subtitle">Completa los campos</span>
                 <div class="form-container">
-                    <input type="text" class="input" placeholder="Usuario" id="validar();">
-                    <input type="email" class="input" placeholder="No.Boleta" id="validar();">
-                    <input type="password" class="input" placeholder="Contraseña" id="validar();">
+                    <input type="text" class="input" placeholder="Usuario" id="usuario">
+                    <input type="number" class="input" placeholder="No.Boleta" id="boleta">
+                    <input type="password" class="input" placeholder="Contraseña" id="contrasenia">
                 </div>
-                <button type="button" class="btn btn-primary">¡Ingresar!</button>
+                <button type="button" class="btn btn-primary" onclick="validarLogin()">¡Ingresar!</button>
+                <div id="mensaje-incompleto"></div>
             </form>
-            
         </div>
     </main>
 
@@ -88,10 +88,10 @@
             <div class="col-xs-12 col-md-6 col-lg-3">
                 <p class="h5 mb-3">Contacto</p>
                 <div class="mb-3">
-                    <a class="text-white text-decoration-none" href="mailto:saulvelpa120@gmail.com">correo 1</a>
+                    <a class="text-white text-decoration-none" href="mailto:saulvelpa120@gmail.com">saulvelpa120@gmail.com</a>
                 </div>
                 <div class="mb-3">
-                    <a class="text-white text-decoration-none" href="mailto:svelazquezp1900@alumno.ipn.mx">correo 2</a>
+                    <a class="text-white text-decoration-none" href="mailto:miguelarenas315@gmail.com">miguelarenas315@gmail.com</a>
                 </div>
             </div>
             <div class="col-xs-12 col-md-6 col-lg-3">
@@ -112,7 +112,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-
+    <script src="../js/Solicitud_html/Validaciones_Modal.js"></script>
 </body>
 
 </html>
