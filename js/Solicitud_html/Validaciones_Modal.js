@@ -154,6 +154,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function datosSubidos() {
     alert('Datos subidos correctamente');
+    const modalElement = document.getElementById('DatosModal');
+    const modal = bootstrap.Modal.getInstance(modalElement);
+    if (modal) {
+        modal.hide();
+    }
+    LimpiarFormulario();
 }
 
 function validarLogin() {
