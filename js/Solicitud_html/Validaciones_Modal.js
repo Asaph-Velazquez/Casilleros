@@ -107,7 +107,7 @@ function subida() {
         'Nombre': document.getElementById('Nombre')?.value || '',
         'Primer Apellido': document.getElementById('ApellidoPaterno')?.value || '',
         'Segundo Apellido': document.getElementById('ApellidoMaterno')?.value || '',
-        'Telefono': document.getElementById('Telefono')?.value || '',
+        'Teléfono': document.getElementById('Telefono')?.value || '',
         'Correo': document.getElementById('Correo')?.value || '',
         'Boleta': document.getElementById('Boleta')?.value || '',
         'Estatura': document.getElementById('Estatura')?.value || '',
