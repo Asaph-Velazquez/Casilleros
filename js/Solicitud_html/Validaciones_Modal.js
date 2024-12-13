@@ -1,3 +1,4 @@
+// Configuración de validaciones
 const validaciones = {
     Nombre: {
         regex: /^[a-zA-ZáéíóúÁÉÍÓÚ\s]{3,30}$/,
@@ -11,7 +12,7 @@ const validaciones = {
         regex: /^[a-zA-ZáéíóúÁÉÍÓÚ\s]{3,30}$/,
         mensaje: "El apellido debe tener entre 3 y 30 caracteres"
     },
-    Teléfono: {
+    Telefono: {
         regex: /^[0-9]{10}$/,
         mensaje: "El teléfono debe tener exactamente 10 dígitos"
     },
@@ -24,8 +25,8 @@ const validaciones = {
         mensaje: "La boleta debe tener el formato 20XXXXXXXX"
     },
     Estatura: {
-        regex: /^[0-2]\.[0-9]{2}$/,
-        mensaje: "La estatura debe tener el formato X.XX"
+        regex: /^[0-3](\.[0-9]{1,2})?$/, // Valores entre 0.00 y 3.00
+        mensaje: "La estatura debe estar entre 0.00 y 3.00 con hasta dos decimales"
     },
     CURP: {
         regex: /^[A-Z]{1}[AEIOUX]{1}[A-Z]{2}\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])[HM](AS|BC|BS|CC|CS|CH|CL|CM|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[B-DF-HJ-NP-TV-Z]{3}[0-9A-Z]{1}\d{1}$/,
@@ -49,17 +50,18 @@ const validaciones = {
     }
 };
 
+// Función para validar un campo
 function validarCampo(campo) {
     if (!campo.offsetParent || campo.style.display === 'none') {
-        return true;
+        return true; // Ignorar campos ocultos
     }
 
     const tipo = campo.id;
     const validacion = validaciones[tipo];
     if (!validacion) {
-        return true;
+        return true; // Si el campo no tiene validación, asumir válido
     }
-    
+
     const valor = campo.type === 'file' && campo.files.length > 0 
         ? campo.files[0].name 
         : campo.value.trim();
@@ -79,8 +81,9 @@ function validarCampo(campo) {
     return esValido;
 }
 
+// Función para validar todo el formulario
 function validarFormulario() {
-    const campos = document.querySelectorAll('#Formulario input');
+    const campos = document.querySelectorAll('#solicitudForm input');
     let esValido = true;
 
     campos.forEach(campo => {
@@ -93,10 +96,11 @@ function validarFormulario() {
     return esValido;
 }
 
-function subida() {
+// Función para mostrar el modal con los datos
+function mostrarModal() {
     const formularioValido = validarFormulario();
     if (!formularioValido) {
-        alert('Por favor, corrija los errores en el formulario');
+        alert('Por favor, corrija los errores en el formulario.');
         return;
     }
 
@@ -135,38 +139,48 @@ function subida() {
     modal.show();
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    const inputs = document.querySelectorAll('#Formulario input');
+// Función para limpiar el formulario
+function LimpiarFormulario() {
+    const inputs = document.querySelectorAll('#solicitudForm input');
     inputs.forEach(input => {
-        input.addEventListener('input', () => validarCampo(input));
+        input.classList.remove('is-valid', 'is-invalid');
+        input.value = '';
     });
 
-    const formulario = document.querySelector('#Formulario');
-    if (formulario) {
-        formulario.addEventListener('submit', function (event) {
-            if (!validarFormulario()) {
-                event.preventDefault();
-                alert('Hay errores en el formulario');
-            }
-        });
-    }
-});
+    // Reset file inputs
+    const fileInputs = document.querySelectorAll('input[type="file"]');
+    fileInputs.forEach(input => input.value = '');
 
+    // Reset radio buttons
+    const radioButtons = document.querySelectorAll('input[type="radio"]');
+    radioButtons.forEach(radio => radio.checked = false);
+}
+
+// Función para manejar el envío de datos
 function datosSubidos() {
     alert('Datos subidos correctamente');
     const modalElement = document.getElementById('DatosModal');
     const modal = bootstrap.Modal.getInstance(modalElement);
-    if (modal) {
-        modal.hide();
-    }
+    if (modal) modal.hide();
     LimpiarFormulario();
 }
 
-function validarLogin() {
-    const campos = document.querySelectorAll('.form input');
-    let valido = true;
-    for (let i = 0; i < campos.length && valido; i++) {
-        if (campos[i].value === '') valido = false;
-    }
-    document.getElementById('mensaje-incompleto').innerHTML = valido ? '' : 'Complete los campos faltantes';
-}
+// Asociar eventos al cargar la página
+document.addEventListener('DOMContentLoaded', function () {
+    // Validar campos en tiempo real
+    const inputs = document.querySelectorAll('#solicitudForm input');
+    inputs.forEach(input => {
+        input.addEventListener('input', () => validarCampo(input));
+    });
+
+    // Botón "Registrar"
+    const registrarBtn = document.getElementById('Registrar');
+    registrarBtn.addEventListener('click', mostrarModal);
+
+    // Envío del formulario
+    const formulario = document.getElementById('solicitudForm');
+    formulario.addEventListener('submit', function (event) {
+        event.preventDefault();
+        datosSubidos();
+    });
+});

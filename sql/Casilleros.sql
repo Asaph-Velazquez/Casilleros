@@ -5,11 +5,14 @@ CREATE TABLE estudiantes (
     nombre VARCHAR(50) NOT NULL,
     primer_apellido VARCHAR(50) NOT NULL,
     segundo_apellido VARCHAR(50),
+    estatura DECIMAL(3,2) NOT NULL,
     telefono VARCHAR(10) NOT NULL,
     correo VARCHAR(100) NOT NULL UNIQUE,
     boleta VARCHAR(10) NOT NULL UNIQUE,
     usuario VARCHAR(20) NOT NULL UNIQUE,
-    contraseña VARCHAR(255) NOT NULL
+    contraseña VARCHAR(255) NOT NULL,
+    credencial VARCHAR(255), -- Ruta al archivo de credencial
+    horario VARCHAR(255) -- Ruta al archivo de horario
 );
 
 -- Tabla casilleros

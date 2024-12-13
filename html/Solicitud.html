@@ -60,7 +60,7 @@
 
     <!--FORMULARIO-->
     <div class="container mt-4" id="Formulario">
-      <form id="solicitudForm" action="../php/ProcesarForm.php" method="post">
+      <form id="solicitudForm" action="../php/ProcesarForm.php" method="post" enctype="multipart/form-data">
       <h2>Solicitud de Casillero</h2>
         <div class="mb-3">
           <label class="form-label">Tipo de Solicitud</label>
@@ -143,7 +143,7 @@
           <div class="col-md-6 mb-3">
             <div id="EleccionEstatura" class="mb-3" style="display: none;">
               <label for="Estatura" class="form-label">Estatura</label>
-              <input type="number" class="form-control" id="Estatura" placeholder="1.70" name="Estatura">
+              <input type="text" class="form-control" id="Estatura" placeholder="1.70" name="Estatura">
               <div class="mensaje-invalido"></div>
             </div>
           </div>
@@ -191,25 +191,26 @@
             <button type="reset" class="btn btn-warning" id="Limpiar"  style="display: none;" onclick="LimpiarFormulario();">Limpiar</button>
           </div>
         </div>
-      </form>
-    </div>
-    
-    <!--MODAL-->
-    <div class="modal fade" id="DatosModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalLabel">Verificación de datos</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" onclick="datosSubidos();">Enviar Datos</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+        <!--MODAL-->
+        <div class="modal fade" id="DatosModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Verificación de datos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Enviar Datos</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+ 
+      </form>
     </div>
 
     
