@@ -3,17 +3,17 @@
 $conexion = mysqli_connect('localhost', 'root', '', 'casilleros');
 
 //recuperacion de datos
-$curp = mysqli_real_escape_string($conexion, $_POST['CURP'] ?? '');
-$nombre = mysqli_real_escape_string($conexion, $_POST['Nombre'] ?? '');
-$apellidoPaterno = mysqli_real_escape_string($conexion, $_POST['ApellidoPaterno'] ?? '');
-$apellidoMaterno = mysqli_real_escape_string($conexion, $_POST['ApellidoMaterno'] ?? '');
-$telefono = mysqli_real_escape_string($conexion, $_POST['Telefono'] ?? '');
-$correo = mysqli_real_escape_string($conexion, $_POST['Correo'] ?? '');
-$boleta = mysqli_real_escape_string($conexion, $_POST['Boleta'] ?? '');
-$estatura = mysqli_real_escape_string($conexion, $_POST['Estatura'] ?? '');
-$usuario = mysqli_real_escape_string($conexion, $_POST['Usuario'] ?? '');
-$contrasena = mysqli_real_escape_string($conexion, $_POST['Contraseña'] ?? '');
-
+$tipoSolicitud = $_POST['tipoSolicitud'] ?? '';
+$curp = $_POST['CURP'] ?? '';
+$nombre = $_POST['Nombre'] ?? '';
+$apellidoPaterno = $_POST['ApellidoPaterno'] ?? '';
+$apellidoMaterno = $_POST['ApellidoMaterno'] ?? '';
+$telefono = $_POST['Telefono'] ?? '';
+$correo = $_POST['Correo'] ?? '';
+$boleta = $_POST['Boleta'] ?? '';
+$estatura = $_POST['Estatura'] ?? '';
+$usuario = $_POST['Usuario'] ?? '';
+$contrasena = $_POST['Contraseña'] ?? '';
 
 //insertar datos
 $insertar = "INSERT INTO  estudiantes(curp, nombre, primer_apellido, segundo_apellido, telefono, correo, boleta, estatura, usuario, contraseña) 
