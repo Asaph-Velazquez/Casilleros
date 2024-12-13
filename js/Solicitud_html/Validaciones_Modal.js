@@ -157,12 +157,34 @@ function LimpiarFormulario() {
 }
 
 // Función para manejar el envío de datos
-function datosSubidos() {
-    alert('Datos subidos correctamente');
-    const modalElement = document.getElementById('DatosModal');
-    const modal = bootstrap.Modal.getInstance(modalElement);
-    if (modal) modal.hide();
-    LimpiarFormulario();
+function datosSubidos(event) {
+    event.preventDefault(); // Prevenir submit por defecto
+
+    if (validarFormulario()) {
+        // Crear FormData para enviar todos los datos
+        const formData = new FormData(document.getElementById('solicitudForm'));
+
+        fetch('../php/ProcesarForm.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                alert(result.message);
+                const modalElement = document.getElementById('DatosModal');
+                const modal = bootstrap.Modal.getInstance(modalElement);
+                if (modal) modal.hide();
+                LimpiarFormulario();
+            } else {
+                alert(result.message); // Mostrar mensaje de error si hay duplicados
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Hubo un problema al subir los datos');
+        });
+    }
 }
 
 // Asociar eventos al cargar la página
@@ -179,8 +201,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Envío del formulario
     const formulario = document.getElementById('solicitudForm');
-    formulario.addEventListener('submit', function (event) {
-        event.preventDefault();
-        datosSubidos();
-    });
+    formulario.addEventListener('submit', datosSubidos);
 });
