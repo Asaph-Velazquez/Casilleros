@@ -11,7 +11,7 @@ const validaciones = {
         regex: /^[a-zA-ZáéíóúÁÉÍÓÚ\s]{3,30}$/,
         mensaje: "El apellido debe tener entre 3 y 30 caracteres"
     },
-    Telefono: {
+    Teléfono: {
         regex: /^[0-9]{10}$/,
         mensaje: "El teléfono debe tener exactamente 10 dígitos"
     },
