@@ -21,10 +21,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $estatura = $_POST['Estatura'] ?? '';
     $usuario = $_POST['Usuario'] ?? '';
     $contrasena = $_POST['Contraseña'] ?? '';
+    $lockerAnterior = $_POST['CasilleroAnterior'] ?? null; // Locker anterior para renovaciones
 
     // Validar datos obligatorios
     if (empty($tipoSolicitud) || empty($curp) || empty($nombre) || empty($correo) || empty($boleta) || empty($usuario) || empty($contrasena)) {
         echo json_encode(['success' => false, 'message' => 'Error: Todos los campos obligatorios deben ser completados.']);
+        exit;
+    }
+
+    // Si es una renovación, verificar que el casillero anterior esté proporcionado
+    if ($tipoSolicitud === 'Renovacion' && empty($lockerAnterior)) {
+        echo json_encode(['success' => false, 'message' => 'Error: El número del casillero anterior es obligatorio para renovaciones.']);
         exit;
     }
 
@@ -82,6 +89,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mysqli_stmt_bind_param($stmt, 'ssssssssssss', $curp, $nombre, $apellidoPaterno, $apellidoMaterno, $telefono, $correo, $boleta, $estatura, $usuario, $hashedPassword, $rutaCredencial, $rutaHorario);
 
     if (mysqli_stmt_execute($stmt)) {
+        $idEstudiante = mysqli_insert_id($conexion);
+
+        // Insertar en la tabla de solicitudes
+        $stmtSolicitud = mysqli_prepare($conexion, "INSERT INTO solicitudes (id_estudiante, tipo_solicitud, casillero_anterior) VALUES (?, ?, ?)");
+        mysqli_stmt_bind_param($stmtSolicitud, 'isi', $idEstudiante, $tipoSolicitud, $lockerAnterior);
+        mysqli_stmt_execute($stmtSolicitud);
+        mysqli_stmt_close($stmtSolicitud);
+
         echo json_encode(['success' => true, 'message' => 'Registro exitoso.']);
     } else {
         echo json_encode(['success' => false, 'message' => 'Error al registrar los datos: ' . mysqli_error($conexion)]);
