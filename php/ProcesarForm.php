@@ -1,13 +1,16 @@
 <?php
-// Conexión a la base de datos
+// Configuración para conexión a la base de datos
 $conexion = mysqli_connect('localhost', 'root', '', 'casilleros');
 
 if (!$conexion) {
-    die(json_encode(['success' => false, 'message' => 'Error de conexión a la base de datos.']));
+    echo json_encode(['success' => false, 'message' => 'Error de conexión a la base de datos: ' . mysqli_connect_error()]);
+    exit;
 }
 
+// Verifica si la solicitud es POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Recuperar datos del formulario
+    // Recuperación de datos enviados desde el formulario
+    $tipoSolicitud = $_POST['tipoSolicitud'] ?? '';
     $curp = $_POST['CURP'] ?? '';
     $nombre = $_POST['Nombre'] ?? '';
     $apellidoPaterno = $_POST['ApellidoPaterno'] ?? '';
@@ -17,44 +20,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $boleta = $_POST['Boleta'] ?? '';
     $estatura = $_POST['Estatura'] ?? '';
     $usuario = $_POST['Usuario'] ?? '';
-    $contrasena = password_hash($_POST['Contraseña'] ?? '', PASSWORD_BCRYPT);
+    $contrasena = $_POST['Contraseña'] ?? '';
 
-    // Comprobar duplicados
-    $duplicadoQuery = "SELECT * FROM estudiantes WHERE correo = ? OR boleta = ? OR curp = ? OR usuario = ?";
-    $stmt = mysqli_prepare($conexion, $duplicadoQuery);
-    mysqli_stmt_bind_param($stmt, 'ssss', $correo, $boleta, $curp, $usuario);
-    mysqli_stmt_execute($stmt);
-    $resultado = mysqli_stmt_get_result($stmt);
-
-    if (mysqli_num_rows($resultado) > 0) {
-        $datosDuplicados = mysqli_fetch_assoc($resultado);
-        $duplicados = [];
-
-        if ($datosDuplicados['correo'] === $correo) {
-            $duplicados[] = 'Correo';
-        }
-        if ($datosDuplicados['boleta'] === $boleta) {
-            $duplicados[] = 'Boleta';
-        }
-        if ($datosDuplicados['curp'] === $curp) {
-            $duplicados[] = 'CURP';
-        }
-        if ($datosDuplicados['usuario'] === $usuario) {
-            $duplicados[] = 'Usuario';
-        }
-
-        echo json_encode(['success' => false, 'message' => 'Los siguientes campos ya están registrados: ' . implode(', ', $duplicados)]);
+    // Validar datos obligatorios
+    if (empty($tipoSolicitud) || empty($curp) || empty($nombre) || empty($correo) || empty($boleta) || empty($usuario) || empty($contrasena)) {
+        echo json_encode(['success' => false, 'message' => 'Error: Todos los campos obligatorios deben ser completados.']);
         exit;
     }
 
-    // Insertar nuevo registro
-    $insertQuery = "INSERT INTO estudiantes (curp, nombre, primer_apellido, segundo_apellido, telefono, correo, boleta, estatura, usuario, contraseña)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = mysqli_prepare($conexion, $insertQuery);
-    mysqli_stmt_bind_param($stmt, 'ssssssssss', $curp, $nombre, $apellidoPaterno, $apellidoMaterno, $telefono, $correo, $boleta, $estatura, $usuario, $contrasena);
+    // Comprobar si el correo, boleta o usuario ya existen
+    $consultaVerificacion = "SELECT * FROM estudiantes WHERE correo = ? OR boleta = ? OR usuario = ?";
+    $stmtVerificacion = mysqli_prepare($conexion, $consultaVerificacion);
+    mysqli_stmt_bind_param($stmtVerificacion, 'sss', $correo, $boleta, $usuario);
+    mysqli_stmt_execute($stmtVerificacion);
+    $resultadoVerificacion = mysqli_stmt_get_result($stmtVerificacion);
+
+    if (mysqli_num_rows($resultadoVerificacion) > 0) {
+        echo json_encode(['success' => false, 'message' => 'Error: El correo, boleta o usuario ya están registrados.']);
+        exit;
+    }
+
+    // Manejo de archivos
+    $rutaCredencial = null;
+    $rutaHorario = null;
+    $uploadDir = 'uploads/';
+
+    // Crear directorio si no existe
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+
+    // Manejo del archivo Credencial
+    if (isset($_FILES['Credencial']) && $_FILES['Credencial']['error'] === UPLOAD_ERR_OK) {
+        $extension = pathinfo($_FILES['Credencial']['name'], PATHINFO_EXTENSION);
+        $nombreUnico = uniqid('credencial_', true) . '.' . $extension;
+        $rutaCredencial = $uploadDir . $nombreUnico;
+
+        if (!move_uploaded_file($_FILES['Credencial']['tmp_name'], $rutaCredencial)) {
+            echo json_encode(['success' => false, 'message' => 'Error al guardar el archivo de credencial.']);
+            exit;
+        }
+    }
+
+    // Manejo del archivo Horario
+    if (isset($_FILES['Horario']) && $_FILES['Horario']['error'] === UPLOAD_ERR_OK) {
+        $extension = pathinfo($_FILES['Horario']['name'], PATHINFO_EXTENSION);
+        $nombreUnico = uniqid('horario_', true) . '.' . $extension;
+        $rutaHorario = $uploadDir . $nombreUnico;
+
+        if (!move_uploaded_file($_FILES['Horario']['tmp_name'], $rutaHorario)) {
+            echo json_encode(['success' => false, 'message' => 'Error al guardar el archivo de horario.']);
+            exit;
+        }
+    }
+
+    // Cifrar la contraseña
+    $hashedPassword = password_hash($contrasena, PASSWORD_BCRYPT);
+
+    // Insertar datos en la tabla estudiantes
+    $stmt = mysqli_prepare($conexion, "INSERT INTO estudiantes (curp, nombre, primer_apellido, segundo_apellido, telefono, correo, boleta, estatura, usuario, contraseña, credencial, horario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    mysqli_stmt_bind_param($stmt, 'ssssssssssss', $curp, $nombre, $apellidoPaterno, $apellidoMaterno, $telefono, $correo, $boleta, $estatura, $usuario, $hashedPassword, $rutaCredencial, $rutaHorario);
 
     if (mysqli_stmt_execute($stmt)) {
-        echo json_encode(['success' => true, 'message' => 'Registro completado con éxito.']);
+        echo json_encode(['success' => true, 'message' => 'Registro exitoso.']);
     } else {
         echo json_encode(['success' => false, 'message' => 'Error al registrar los datos: ' . mysqli_error($conexion)]);
     }
