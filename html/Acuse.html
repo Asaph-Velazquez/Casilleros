@@ -58,15 +58,15 @@
 
     <main>
         <div class="form-padre">
-            <form class="form" autocomplete="off">
+            <form class="form" autocomplete="off" method="post" action="../php/EstudianteValidarLogin.php">
                 <span class="title">Iniciar Sesión</span>
                 <span class="subtitle">Completa los campos</span>
                 <div class="form-container">
-                    <input type="text" class="input" placeholder="Usuario" id="usuario">
-                    <input type="number" class="input" placeholder="No.Boleta" id="boleta">
-                    <input type="password" class="input" placeholder="Contraseña" id="contrasenia">
+                    <input type="text" class="input" placeholder="Usuario" id="usuario" name="UsuarioLogin" required>
+                    <input type="number" class="input" placeholder="No.Boleta" id="boleta" name="boleta" required>
+                    <input type="password" class="input" placeholder="Contraseña" id="contrasenia" name="ContraseniaLogin" required>
                 </div>
-                <button type="button" class="btn btn-primary" onclick="validarLogin()">¡Ingresar!</button>
+                <button type="submit" class="btn btn-primary" onclick="validarLogin()">¡Ingresar!</button>
                 <div id="mensaje-incompleto"></div>
             </form>
         </div>
@@ -112,7 +112,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <script src="../js/Solicitud_html/Validaciones_Modal.js"></script>
+    <script src="../js/login/login.js"></script>
 </body>
 
 </html>

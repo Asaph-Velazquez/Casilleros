@@ -34,3 +34,16 @@ CREATE TABLE solicitudes (
     FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id_estudiante),
     FOREIGN KEY (numero_casillero) REFERENCES casilleros(numero_casillero)
 );
+
+CREATE TABLE administradores (
+    id_admin INT AUTO_INCREMENT PRIMARY KEY,
+    num_trabajador VARCHAR(10) NOT NULL UNIQUE,
+    nombre VARCHAR(50) NOT NULL,
+    usuario VARCHAR(20) NOT NULL UNIQUE,
+    contraseña VARCHAR(255) NOT NULL,
+    correo VARCHAR(100) NOT NULL UNIQUE
+);
+INSERT INTO administradores (num_trabajador, nombre, usuario, contraseña, correo)
+VALUES ('2020030060', 'Saul Asaph', 'admin1', 'admin123', 'admin@ejemplo.com');
+
+
