@@ -45,5 +45,6 @@ CREATE TABLE administradores (
 );
 INSERT INTO administradores (num_trabajador, nombre, usuario, contraseña, correo)
 VALUES ('2020030060', 'Saul Asaph', 'admin1', 'admin123', 'admin@ejemplo.com');
+VALUES ('2023630227','Brandon Castillo', 'admin2', '241019', 'brandon@admon.com');
 
 
