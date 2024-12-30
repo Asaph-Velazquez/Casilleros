@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Casillero - Primera vez</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Solicitud de Casillero (Primera vez)</h1>
+        <p>Por favor, lea el <a href="https://www.escom.ipn.mx/docs/escomunidad/formatosDocumentos/conformidadUsoLocker_25_1.pdf" target="_blank">Acuerdo de Responsabilidades</a>.</p>
+
+        <form action="procesar_solicitud.php" method="POST" enctype="multipart/form-data">
+            <label for="comprobante_pago">Suba su comprobante de pago:</label>
+            <input type="file" name="comprobante_pago" id="comprobante_pago" required>
+
+            <br>
+
+            <label>
+                <input type="checkbox" name="conformidad" id="conformidad" required>
+                Acepto el acuerdo de responsabilidades.
+            </label>
+
+            <br>
+
+            <button type="submit" id="btn-generar-acuse" disabled>Generar Acuse</button>
+        </form>
+    </div>
+
+    <script src="../js/scripts.js"></script>
+</body>
+</html>

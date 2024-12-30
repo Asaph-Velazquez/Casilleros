@@ -171,13 +171,32 @@ function datosSubidos(event) {
         .then(response => response.json())
         .then(result => {
             if (result.success) {
-                alert(result.message);
+                alert(result.message); // Mensaje de éxito
                 const modalElement = document.getElementById('DatosModal');
                 const modal = bootstrap.Modal.getInstance(modalElement);
                 if (modal) modal.hide();
+                
+                // Limpiar formulario
                 LimpiarFormulario();
+
+                // Mostrar el modal con el mensaje específico
+                const tipoSolicitud = document.getElementById('Renovacion')?.checked ? 'Renovación' : 'Registro';
+                let mensaje = '';
+
+                if (tipoSolicitud === 'Registro') {
+                    mensaje = 'Después de 48 hrs., deberá ingresar al sistema para ver el resultado de su solicitud.';
+                } else if (tipoSolicitud === 'Renovación') {
+                    mensaje = 'Para que se te respete tu número de casillero tienes 24 horas para iniciar sesión y subir el comprobante de pago.';
+                }
+
+                // Colocar el mensaje en el modal
+                document.getElementById('mensajeModalTexto').textContent = mensaje;
+
+                // Mostrar el modal
+                const mensajeModal = new bootstrap.Modal(document.getElementById('MensajeModal'));
+                mensajeModal.show();
             } else {
-                alert(result.message); // Mostrar mensaje de error si hay duplicados
+                alert(result.message); // Mostrar mensaje de error si hay duplicados o problemas
             }
         })
         .catch(error => {
@@ -186,6 +205,7 @@ function datosSubidos(event) {
         });
     }
 }
+
 
 // Asociar eventos al cargar la página
 document.addEventListener('DOMContentLoaded', function () {
