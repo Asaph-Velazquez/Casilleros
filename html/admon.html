@@ -257,29 +257,23 @@
 </div>
 </div> <!--Fin del formulario para ingresar-->
 
-<div id="formularioEliminar" style="display:none; margin-top: 50px;">
- 
-<div class="contenedor_eliminar">
-    <div class="eliminar-bg">
-        <p class="titulo">INGRESAR DATOS</p>
-        <form action="">
-            <div class="subcontenedor">
-                <label class="subtitulo" for="Nombre-Usuario">Nombre</label>
-                <input placeholder="Nombre del Usuario" class="estilos-form" type="text">
-            </div>
-            <div class="subcontenedor">
-                <label class="subtitulo" for="Usu">Usuario</label>
-                <input placeholder="Usuario" id="email" class="estilos-form" type="email">
-            </div>
-            <div class="subcontenedor">
-                <label class="subtitulo" for="No_Boleta">Boleta</label>
-                <input placeholder="Ingresar Boleta" id="password" class="estilos-form" type="number">
-            </div>
-            <div>
-             <button class="boton">Eliminar</button>             
-            </div> 
-            </div> 
+<div id="formularioEliminar" style="display:none; margin-top: 50px;"> <!--Inicio del formulario para eliminar-->
+
+  
+<div class="formulario-box">
+<form class="formulario">
+    <span class="texto-principal">Eliminar Registro</span>
+    <span class="texto-secundario">Ingresa los datos del usuario para eliminar el registro</span>
+    <div class="formulario-contenedor">
+      <input type="text" class="entrada" placeholder="Usuario">
+			<input type="number" class="entrada" placeholder="Boleta">
+			<input type="number" class="entrada" placeholder="Casillero">
+    </div>
+    <button>Eliminar</button>
+</form>
+<div class="formulario-section"> </div>
 </div>
+</div> <!--Fin del formulario para eliminar-->
 </main>
 
     
