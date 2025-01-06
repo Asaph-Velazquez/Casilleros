@@ -24,7 +24,7 @@
     // Validar si el administrador existe
     if (mysqli_num_rows($resultado) > 0) {
         // Redireccionar a la página principal del administrador
-        header('location: ../html/PagPrincipal.html'); //PROVISIONAL
+        header('location: ../html/admon.html'); //Pagina del administrador
         exit();
     } else {
         echo 'El administrador no existe o los datos son incorrectos.';

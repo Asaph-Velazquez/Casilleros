@@ -1,0 +1,144 @@
+
+.radio-inputs {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 0.5rem;
+    background-color: #EEE;
+    box-sizing: border-box;
+    box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+    padding: 0.25rem;
+    width: 300px;
+    font-size: 14px;
+  }
+  
+  .radio-inputs .radio {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+  
+  .radio-inputs .radio input {
+    display: none;
+  }
+  
+  .radio-inputs .radio .name {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: none;
+    padding: .5rem 0;
+    color: rgba(51, 65, 85, 1);
+    transition: all .15s ease-in-out;
+  }
+  
+  .radio-inputs .radio input:checked + .name {
+    background-color: #fff;
+    font-weight: 600;
+  }
+ 
+  
+/*Estilos para la lista de los casilleros */
+
+  .contenedor-casilleros {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr); /* 10 botones por fila */
+  gap: 10px;
+  padding: 20px;
+  display: none; /* Inicialmente oculto */
+}
+
+button {
+    padding: 10px;
+    font-size: 12px;
+    cursor: pointer;
+    height: 50px;
+    background-color: #000080; /* Color de fondo verde */
+    color: white;
+    border: none;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #456ca0; /* Cambio de color al pasar el cursor */
+}
+
+
+/*Eliminar Registros*/
+.contenedor_eliminar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.eliminar-bg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #69c8ff;
+  height: auto;
+  width: auto;
+  border: 2px solid #264143;
+  border-radius: 20px;
+  box-shadow: 3px 4px 0px 1px #222221;
+}
+
+.titulo {
+  color: #264143;
+  font-weight: 900;
+  font-size: 1.5em;
+  margin-top: 20px;
+}
+
+.subtitulos {
+  font-weight: 600;
+  margin: 5px 0;
+}
+
+.subcontenedor{
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  margin: 10px;
+}
+
+.estilos-form{
+  outline: none;
+  border: 2px solid #264143;
+  box-shadow: 3px 4px 0px 1px #fcfcfc;
+  width: 290px;
+  padding: 12px 10px;
+  border-radius: 4px;
+  font-size: 15px;
+}
+
+.estilos-form:focus, .boton:focus {
+  transform: translateY(4px);
+  box-shadow: 1px 2px 0px 0px #ffffff;
+}
+
+.boton {
+  padding: 15px;
+  margin: 25px 0px;
+  width: 290px;
+  font-size: 15px;
+  background: #849cfe;
+  border-radius: 10px;
+  font-weight: 800;
+  box-shadow: 3px 3px 0px 0px #E99F4C;
+}
+
+.boton:hover {
+  opacity: .9;
+}
+
+.enlace {
+  font-weight: 800;
+  color: #264143;
+  padding: 5px;
+}
