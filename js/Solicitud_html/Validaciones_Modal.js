@@ -133,7 +133,8 @@ function mostrarModal() {
         'Estatura': document.getElementById('Estatura')?.value || '',
         'Credencial': document.getElementById('Credencial')?.files[0]?.name || '',
         'Horario': document.getElementById('Horario')?.files[0]?.name || '',
-        'Usuario': document.getElementById('Usuario')?.value || ''
+        'Usuario': document.getElementById('Usuario')?.value || '',
+        'Contraseña': document.getElementById('Contraseña')?.value || ''
     };
 
     let contenidoHTML = '<div class="container">';
@@ -179,12 +180,14 @@ function LimpiarFormulario() {
     radioButtons.forEach(radio => radio.checked = false);
 }
 
-// Función para manejar el envío de datos
 function datosSubidos(event) {
     event.preventDefault();
 
     if (validarFormulario()) {
         const formData = new FormData(document.getElementById('solicitudForm'));
+
+        // Captura el valor del radio seleccionado antes de limpiar
+        const tipoSolicitud = document.querySelector('input[name="tipoSolicitud"]:checked').value;
 
         fetch('../php/ProcesarForm.php', {
             method: 'POST',
@@ -193,35 +196,30 @@ function datosSubidos(event) {
         .then(response => response.json())
         .then(result => {
             if (result.success) {
-                // Cerrar el modal de datos si está abierto
+                // Cierra el modal de datos si está abierto
                 const modalElement = document.getElementById('DatosModal');
                 const modal = bootstrap.Modal.getInstance(modalElement);
-                if (modal) {
-                    modal.hide();
-                }
+                if (modal) modal.hide();
 
-                // Mostrar mensaje de éxito
+                // Muestra el mensaje de éxito
                 alert(result.message);
-                
 
-                // Mostrar mensaje específico según el tipo de solicitud
-                const tipoSolicitud = document.getElementById('Registro').checked;
-                let mensajeFinal; 
-                if (tipoSolicitud == true) {
+                // Limpia el formulario
+                LimpiarFormulario();
+
+                // Determina el mensaje según el tipo de solicitud
+                let mensajeFinal = '';
+                if (tipoSolicitud === 'Registro') {
                     mensajeFinal = 'Después de 48 hrs., deberá ingresar al sistema para ver el resultado de su solicitud.';
-                } else if (tipoSolicitud == false) {
+                } else if (tipoSolicitud === 'Renovacion') {
                     mensajeFinal = 'Para que se te respete tu número de casillero tienes 24 horas para iniciar sesión y subir el comprobante de pago.';
                 }
 
-                setTimeout(() => {
-                    mostrarMensajeModal(mensajeFinal);
-                }, 500);
+                // Muestra el mensaje en el modal
+                mostrarMensajeModal(mensajeFinal);
             } else {
-                // Mostrar mensaje de error
-                alert(result.message);
+                alert(result.message); // Muestra el error
             }
-                            // Limpiar el formulario
-                            LimpiarFormulario();
         })
         .catch(error => {
             console.error('Error:', error);
@@ -229,6 +227,7 @@ function datosSubidos(event) {
         });
     }
 }
+
 
 // Asociar eventos al cargar la página
 document.addEventListener('DOMContentLoaded', function () {
