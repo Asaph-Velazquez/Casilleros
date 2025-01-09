@@ -1,3 +1,10 @@
+// Función para mostrar mensajes en el modal
+function mostrarMensajeModal(mensaje) {
+    document.getElementById('mensajeModalTexto').textContent = mensaje;
+    const mensajeModal = new bootstrap.Modal(document.getElementById('MensajeModal'));
+    mensajeModal.show();
+}
+
 // Configuración de validaciones
 const validaciones = {
     Nombre: {
@@ -25,7 +32,7 @@ const validaciones = {
         mensaje: "La boleta debe tener el formato 20XXXXXXXX"
     },
     Estatura: {
-        regex: /^[0-3](\.[0-9]{1,2})?$/, // Valores entre 0.00 y 3.00
+        regex: /^[0-3](\.[0-9]{1,2})?$/,
         mensaje: "La estatura debe estar entre 0.00 y 3.00 con hasta dos decimales"
     },
     CURP: {
@@ -53,13 +60,13 @@ const validaciones = {
 // Función para validar un campo
 function validarCampo(campo) {
     if (!campo.offsetParent || campo.style.display === 'none') {
-        return true; // Ignorar campos ocultos
+        return true;
     }
 
     const tipo = campo.id;
     const validacion = validaciones[tipo];
     if (!validacion) {
-        return true; // Si el campo no tiene validación, asumir válido
+        return true;
     }
 
     const valor = campo.type === 'file' && campo.files.length > 0 
@@ -85,14 +92,24 @@ function validarCampo(campo) {
 function validarFormulario() {
     const campos = document.querySelectorAll('#solicitudForm input');
     let esValido = true;
+    let mensajesError = [];
 
     campos.forEach(campo => {
         if (campo.offsetParent !== null) {
             if (!validarCampo(campo)) {
                 esValido = false;
+                const validacion = validaciones[campo.id];
+                if (validacion) {
+                    mensajesError.push(validacion.mensaje);
+                }
             }
         }
     });
+
+    if (!esValido) {
+        mostrarMensajeModal("Por favor corrija los siguientes errores:\n" + mensajesError.join("\n"));
+    }
+
     return esValido;
 }
 
@@ -100,7 +117,6 @@ function validarFormulario() {
 function mostrarModal() {
     const formularioValido = validarFormulario();
     if (!formularioValido) {
-        alert('Por favor, corrija los errores en el formulario.');
         return;
     }
 
@@ -117,7 +133,8 @@ function mostrarModal() {
         'Estatura': document.getElementById('Estatura')?.value || '',
         'Credencial': document.getElementById('Credencial')?.files[0]?.name || '',
         'Horario': document.getElementById('Horario')?.files[0]?.name || '',
-        'Usuario': document.getElementById('Usuario')?.value || ''
+        'Usuario': document.getElementById('Usuario')?.value || '',
+        'Contraseña': document.getElementById('Contraseña')?.value || ''
     };
 
     let contenidoHTML = '<div class="container">';
@@ -143,26 +160,34 @@ function mostrarModal() {
 function LimpiarFormulario() {
     const inputs = document.querySelectorAll('#solicitudForm input');
     inputs.forEach(input => {
+        // Limpiar clases de validación
         input.classList.remove('is-valid', 'is-invalid');
-        input.value = '';
+        
+        // Limpiar el valor del input
+        if (input.type !== 'radio') {
+            input.value = '';
+        }
+        
+        // Limpiar mensaje de error si existe
+        const errorDiv = input.nextElementSibling;
+        if (errorDiv && errorDiv.classList.contains('mensaje-invalido')) {
+            errorDiv.textContent = '';
+        }
     });
 
-    // Reset file inputs
-    const fileInputs = document.querySelectorAll('input[type="file"]');
-    fileInputs.forEach(input => input.value = '');
-
-    // Reset radio buttons
+    // Desmarcar los radio buttons
     const radioButtons = document.querySelectorAll('input[type="radio"]');
     radioButtons.forEach(radio => radio.checked = false);
 }
 
-// Función para manejar el envío de datos
 function datosSubidos(event) {
-    event.preventDefault(); // Prevenir submit por defecto
+    event.preventDefault();
 
     if (validarFormulario()) {
-        // Crear FormData para enviar todos los datos
         const formData = new FormData(document.getElementById('solicitudForm'));
+
+        // Captura el valor del radio seleccionado antes de limpiar
+        const tipoSolicitud = document.querySelector('input[name="tipoSolicitud"]:checked').value;
 
         fetch('../php/ProcesarForm.php', {
             method: 'POST',
@@ -171,32 +196,29 @@ function datosSubidos(event) {
         .then(response => response.json())
         .then(result => {
             if (result.success) {
-                alert(result.message); // Mensaje de éxito
+                // Cierra el modal de datos si está abierto
                 const modalElement = document.getElementById('DatosModal');
                 const modal = bootstrap.Modal.getInstance(modalElement);
                 if (modal) modal.hide();
-                
-                // Limpiar formulario
+
+                // Muestra el mensaje de éxito
+                alert(result.message);
+
+                // Limpia el formulario
                 LimpiarFormulario();
 
-                // Mostrar el modal con el mensaje específico
-                const tipoSolicitud = document.getElementById('Renovacion')?.checked ? 'Renovación' : 'Registro';
-                let mensaje = '';
-
+                // Determina el mensaje según el tipo de solicitud
+                let mensajeFinal = '';
                 if (tipoSolicitud === 'Registro') {
-                    mensaje = 'Después de 48 hrs., deberá ingresar al sistema para ver el resultado de su solicitud.';
-                } else if (tipoSolicitud === 'Renovación') {
-                    mensaje = 'Para que se te respete tu número de casillero tienes 24 horas para iniciar sesión y subir el comprobante de pago.';
+                    mensajeFinal = 'Después de 48 hrs., deberá ingresar al sistema para ver el resultado de su solicitud.';
+                } else if (tipoSolicitud === 'Renovacion') {
+                    mensajeFinal = 'Para que se te respete tu número de casillero tienes 24 horas para iniciar sesión y subir el comprobante de pago.';
                 }
 
-                // Colocar el mensaje en el modal
-                document.getElementById('mensajeModalTexto').textContent = mensaje;
-
-                // Mostrar el modal
-                const mensajeModal = new bootstrap.Modal(document.getElementById('MensajeModal'));
-                mensajeModal.show();
+                // Muestra el mensaje en el modal
+                mostrarMensajeModal(mensajeFinal);
             } else {
-                alert(result.message); // Mostrar mensaje de error si hay duplicados o problemas
+                alert(result.message); // Muestra el error
             }
         })
         .catch(error => {
@@ -209,17 +231,18 @@ function datosSubidos(event) {
 
 // Asociar eventos al cargar la página
 document.addEventListener('DOMContentLoaded', function () {
-    // Validar campos en tiempo real
     const inputs = document.querySelectorAll('#solicitudForm input');
     inputs.forEach(input => {
         input.addEventListener('input', () => validarCampo(input));
     });
 
-    // Botón "Registrar"
     const registrarBtn = document.getElementById('Registrar');
-    registrarBtn.addEventListener('click', mostrarModal);
+    if (registrarBtn) {
+        registrarBtn.addEventListener('click', mostrarModal);
+    }
 
-    // Envío del formulario
     const formulario = document.getElementById('solicitudForm');
-    formulario.addEventListener('submit', datosSubidos);
+    if (formulario) {
+        formulario.addEventListener('submit', datosSubidos);
+    }
 });
