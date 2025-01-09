@@ -1,0 +1,74 @@
+/*CSS para elegir las opciones de ingresar o eliminar estudiante*/
+.entradas-radio {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 0.5rem;
+    background-color: #EEE;
+    box-sizing: border-box;
+    box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+    padding: 0.25rem;
+    width: 300px;
+    font-size: 14px;
+  }
+  
+  .entradas-radio .radio {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+  
+  .entradas-radio .radio input {
+    display: none;
+  }
+  
+  .entradas-radio .radio .texto {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: none;
+    padding: .5rem 0;
+    color: rgba(51, 65, 85, 1);
+    transition: all .15s ease-in-out;
+  }
+  
+  .entradas-radio .radio input:checked + .texto {
+    background-color: #fff;
+    font-weight: 600;
+  }
+  /*CSS para los casilleros*/
+  #celda-casilleros button{
+   background-color: #000080;
+   border-radius: 10px;
+   color: white;
+   margin: 2px;
+   padding: 2px 3px;
+
+   
+  }
+  @media (max-width: 1000px ) {
+    .contenedor-casilleros{
+        display: grid;
+        width: auto;
+        margin: 0 20px;
+        grid-template-columns: repeat(2, 1fr); 
+        grid-template-rows: repeat(1, 1fr);
+        
+      }
+      
+  }
+  
+ 
+  @media (min-width: 1001px ) {
+      /*Edición del estilo de los casilleros*/
+      .contenedor-casilleros{
+        display: grid;
+        width: 800px;
+        margin: 0 20px;
+        grid-template-columns: repeat(25, 1fr); 
+        grid-template-rows: repeat(4, 1fr);
+        
+      }
+  
+  }

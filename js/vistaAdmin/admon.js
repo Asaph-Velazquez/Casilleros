@@ -1,7 +1,7 @@
 const buttonContainer = document.getElementById("celda-casilleros");
 
 // Creamos 100 botones
-for (let i = 1; i <= 100; i++) {
+for (let i = 100; i >= 1; i--) {
     // Creamos un botón
     const button = document.createElement("button");
     button.textContent = `Casillero ${i}`;
