@@ -1,17 +1,16 @@
 <?php 
-require('fpdf/fpdf.php');
+require('fpdf186/fpdf.php');
 //creacion del pdf
 $PDF = new FPDF();
 $PDF->AddPage(); //añade una página al documento 
 $PDF->SetFont('Arial','B',18); //establece la fuente, el estilo y el tamaño de la fuente
 
-
-$PDF->Image('../imgs/logoEscom.png', 10, 10, 30); // x=10, y=10, ancho=30mm
+$PDF->Image('../imgs/logoEscom.png', 10, 10, 30);
 
 $PDF->SetXY(85, 20);
-$PDF->Cell(40, 10, 'ACUSE', 1, 0,'C'); //añade una celda al documento
+$PDF->Cell(40, 10, 'ACUSE', 1, 0,'C');
 
-$PDF->Image('../imgs/logoIPN.png', 170, 10, 30); // x=170, y=10, ancho=30mm
+$PDF->Image('../imgs/logoIPN.png', 170, 10, 30);
 
 $PDF->Ln(20);
 
