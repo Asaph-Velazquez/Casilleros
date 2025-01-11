@@ -1,10 +1,20 @@
 <?php 
-require('fdpf/fpdf.php');
+require('fpdf/fpdf.php');
 //creacion del pdf
 $PDF = new FPDF();
 $PDF->AddPage(); //añade una página al documento 
 $PDF->SetFont('Arial','B',18); //establece la fuente, el estilo y el tamaño de la fuente
-$PDF->Cell(40,10,'ACUSE',1,1,'C'); //añade una celda al documento
+
+
+$PDF->Image('../imgs/logoEscom.png', 10, 10, 30); // x=10, y=10, ancho=30mm
+
+$PDF->SetXY(85, 20);
+$PDF->Cell(40, 10, 'ACUSE', 1, 0,'C'); //añade una celda al documento
+
+$PDF->Image('../imgs/logoIPN.png', 170, 10, 30); // x=170, y=10, ancho=30mm
+
+$PDF->Ln(20);
+
 //conexión a la base de datos
 $conexion = mysqli_connect("localhost","root","","Casilleros");
 if(!$conexion){
@@ -32,9 +42,10 @@ if(mysqli_num_rows($resultado) > 0){
     $apellidoP = $datos['primer_apellido'];
     $apellidoM = $datos['segundo_apellido'];
     $casillero = $datos['numero_casillero'];
-    $PDF->Cell(0,0,'Nombre Completo: $nombre $apellidoP $apellidoM',0,1,'L');
-    $PDF->Cell(0,0,'Periodo: SEMESTRE 2024-2025/2',0,1,'L');
-    $PDF->Cell(0,0,'Casillero Asignado: $casillero',0,1,'L');
+    $nombreCompleto = "$nombre $apellidoP $apellidoM";
+    $PDF->Cell(40,20,'Nombre Completo: ' .  $nombreCompleto,0,1,'L');
+    $PDF->Cell(40,20,'Periodo: SEMESTRE 2024-2025/2',0,1,'L');
+    $PDF->Cell(40,20,'Casillero Asignado: ' . $casillero,0,1,'L');
     $PDF->Output('I',"$numBoleta.pdf");
     
 }
