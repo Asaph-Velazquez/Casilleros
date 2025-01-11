@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
     // Conexión a la base de datos
     $conexion = mysqli_connect('localhost', 'root', '', 'casilleros');
 
@@ -15,6 +17,8 @@
     $consulta = "SELECT * FROM estudiantes WHERE usuario = '$usuario'";
     $resultado = mysqli_query($conexion, $consulta);
 
+    $_SESSION["nombreUsuario"] = $usuario;
+
     // Verificar si la consulta tuvo éxito
     if (!$resultado) {
         die('Error en la consulta: ' . mysqli_error($conexion));
@@ -23,7 +27,16 @@
     // Validar si el usuario existe
     if (mysqli_num_rows($resultado) > 0) {
         $row = mysqli_fetch_assoc($resultado);
-        
+
+        //Datos del usuario
+        $_SESSION['datosUsuario'] = [
+            'nombre' => htmlspecialchars($row['nombre'] ?? 'pruebaNombre'),
+            'primer_apellido' => htmlspecialchars($row['primer_apellido'] ?? 'pruebaAp1'),
+            'segundo_apellido' => htmlspecialchars($row['segundo_apellido'] ?? 'pruebaAp2'),
+            'correo' => htmlspecialchars($row['correo'] ?? 'prueba@gmail.com')
+        ];
+
+
         // Verificar la contraseña ingresada con la encriptada en la base de datos
         if (password_verify($contrasena, $row['contraseña'])) {
             // Redireccionar a la página principal 
@@ -39,7 +52,8 @@
             
 
             if($estatusS == 'Asignado'){ //Mostrar solo la opcion de imprimir acuse y cerrar sesión
-
+                header("Location: ../html/acceso3.php");
+                exit;
             }
             else if($estatusS == 'Pendiente'){ //Casos para recibir comprobante de pago
                  
@@ -62,36 +76,49 @@
                     $diferencia = $fechaAct->diff($fechaS);
                     $horas = ($diferencia->days * 24) + $diferencia->h;
 
-                    if($tipoSolicitud == "Registro"){ //Pagina para resigistro por primera vez
+                    if($tipoSolicitud == "Registro"){ //Pagina para registro por primera vez
 
                         if($horas >= 48){ //Tiempo mayor que 48 hrs dejar acceder
-                            echo "Accediendo para registro por primera vez $tipoSolicitud $fechaSolicitud";
+                            header("Location: ../html/acceso1.php");
+                            exit;
                         }
-                        else{ //Esperar a que pasen 48 hrs
-                            echo "Espera a que pasen 48 horas de haber realizado tu registro";
+                        else{ //Esperar a que pasen 48 hrs // (Solo mensaje)
+                            $_SESSION["msj"] = "Por favor espere a que transcurran 48 horas desde su registro";
+                            header("Location: ../html/mensaje.php");
+                            exit;
                         }
                     }
                     else{ //Solicitud de renovación
     
                         // Verificar si han pasado menos de 24 horas
-                        if ($horas < 24) {
-                            echo "Aun en tiempo, solicitud de renovacion";
+                        if ($horas < 24) { 
+                            header("Location: ../html/acceso2.php");
+                            exit;
                         } 
-                        else {
-                            echo "Fuera de tiempo, en espera de reasignacion";
+                        else { // (Solo mensaje)
+                            $_SESSION["msj"] = "Su tiempo para enviar el comprobante de pago ha finalizado, por favor espera por la reasignación de otro casillero";
+                            header("Location: ../html/mensaje.php");
+                            exit; 
                         }
                     }
                 }
-                else{ //Mostrar mensaje de en espera
-                    echo "En espera, limite de solicitudes alcanzado";
+                else{ //Mostrar mensaje de en espera (Solo mensaje)
+                    $_SESSION["msj"] = "Sin casilleros disponibles. En lista de espera";
+                    header("Location: ../html/mensaje.php");
+                    
+                    exit;
                 }
             }
-            else if($estatusS == 'Lista de espera'){ //En lista de espera
-
+            else if($estatusS == 'Lista de espera'){ //En lista de espera (Solo mensaje)
+                $_SESSION["msj"] = "Sin casilleros disponibles. En lista de espera";
+                exit;
             }
-            else{ //Agregar estado de solicitud rechazada
-
+            else{ //Agregar estado de solicitud rechazada (Solo mensaje)
+                $_SESSION["msj"] = "Sin casilleros disponibles. En lista de espera";
+                header("Location: ../html/mensaje.php");
+                exit;
             }
+            
             //exit();
         } else {
             // Contraseña incorrecta
@@ -100,7 +127,7 @@
     } else {
         echo 'El usuario no existe.';
     }
-
+    
     // Cerrar conexión
     mysqli_close($conexion);
 ?>
