@@ -64,7 +64,7 @@
       /*Edición del estilo de los casilleros*/
       .contenedor-casilleros{
         display: grid;
-        width: 800px;
+        width: 500px;
         margin: 0 20px;
         grid-template-columns: repeat(25, 1fr); 
         grid-template-rows: repeat(4, 1fr);

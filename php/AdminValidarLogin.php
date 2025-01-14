@@ -1,5 +1,6 @@
 <?php
     // Conexión a la base de datos
+    session_start();
     $conexion = mysqli_connect('localhost', 'root', '', 'casilleros');
 
     // Verificar conexión
@@ -24,7 +25,8 @@
     // Validar si el administrador existe
     if (mysqli_num_rows($resultado) > 0) {
         // Redireccionar a la página principal del administrador
-        header('location: ../html/admon.html'); //Pagina del administrador
+        $_SESSION['usuario'] = $usuario;
+        header('location: ../html/admon.php'); //Pagina del administrador
         exit();
     } else {
         echo 'El administrador no existe o los datos son incorrectos.';

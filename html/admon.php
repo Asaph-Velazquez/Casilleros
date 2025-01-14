@@ -1,3 +1,26 @@
+<?php
+session_start();
+
+// Verificar si la sesión está activa y si el usuario es un administrador
+if (!isset($_SESSION['usuario'])) {
+    // Si no hay sesión activa, redirigir a la página principal
+    header('location: ../html/PagPrincipal.html');
+    exit();
+}
+
+// Si el usuario es un administrador
+if ($_SESSION['usuario'] == 'admin') {
+    // Redirigir al administrador a la página del administrador
+    header('location: ../html/admon.php');
+    exit();
+}
+
+// Si no es administrador, redirigir a la página principal o a donde corresponda
+header('location: ../html/PagPrincipal.html');
+exit();
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -92,12 +115,8 @@
                 <span class="texto">Eliminar</span>
             </label>
             <label class="radio">
-                <input type="radio" name="radio" id="Eliminar">
-                <span class="texto">Actualizar</span>
-            </label>
-            <label class="radio">
-                <input type="radio" name="radio" id="Eliminar">
-                <span class="texto">Ver</span>
+                <input type="radio" name="radio" id="Actualizar">
+                <span class="texto">Buscar Registro </span>
             </label>
         </div>
 
@@ -306,52 +325,90 @@
         <!--Inicio del formulario para eliminar Registro-->
         <div id="formularioEliminar" style="display: none; margin: 30px 50px;">
             <h2>Eliminar Registro</h2>
-            <form class="row g-3">
+            <form class="row g-3" autocomplete="off" action="../php/Admin/borrarRegistros.php
+            " method="post" id="formDelete">
+                <!-- Campos del formulario -->
                 <div class="col-md-4">
-                    <label for="Nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="Nombre" required placeholder="Ingresa el nombre"
-                        name="Nombre">
-                    <div class="mensaje-invalido">
-                    </div>
+                    <label for="NombreBorrar" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="NombreBorrar" required placeholder="Ingresa el nombre"
+                        name="NombreBorrar">
                 </div>
                 <div class="col-md-4">
-                    <label for="primerApellido" class="form-label">Primer Apellido</label>
-                    <input type="text" class="form-control" id="primerApellido" name="primerApellido" required
-                        placeholder="Ingresa el primer apellido">
-                    <div class="mensaje-invalido">
-                    </div>
+                    <label for="primerApellidoBorrar" class="form-label">Primer Apellido</label>
+                    <input type="text" class="form-control" id="primerApellidoBorrar" name="primerApellidoBorrar"
+                        required placeholder="Ingresa el primer apellido">
                 </div>
                 <div class="col-md-4">
-                    <label for="segundoApellido" class="form-label">Segundo Apellido</label>
-                    <input type="text" class="form-control" id="segundoApellido" name="segundoApellido" required
-                        placeholder="Ingresa el segundo apellido">
-                    <div class="mensaje-invalido">
-                    </div>
+                    <label for="segundoApellidoBorrar" class="form-label">Segundo Apellido</label>
+                    <input type="text" class="form-control" id="segundoApellidoBorrar" name="segundoApellidoBorrar"
+                        required placeholder="Ingresa el segundo apellido">
                 </div>
                 <div class="col-md-4">
                     <label for="validarUsuario" class="form-label">Usuario</label>
-                    <div class="input-group has-validation">
-                        <input type="text" class="form-control" id="validarUsuario" aria-describedby="inputGroupPrepend"
-                            required placeholder="Ingresa tu usuario" name="validarUsuario">
-                        <div class="mensaje-invalido">
+                    <input type="text" class="form-control" id="validarUsuario" placeholder="Ingresa tu usuario"
+                        name="validarUsuario">
+                </div>
+                <div class="col-md-4">
+                    <label for="casilleroBorrar" class="form-label">Número de Casillero</label>
+                    <input type="number" class="form-control" id="casilleroBorrar"
+                        placeholder="Número de casillero asignado" name="casilleroBorrar" min="1" max="100" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="boletaBorrar" class="form-label">No. Boleta</label>
+                    <input type="text" class="form-control" id="boletaBorrar" placeholder="Boleta" name="boletaBorrar"
+                        required>
+                </div>
+                <div class="col-12">
+                    <button type="button" class="btn btn-primary" id="borrarRegistro"
+                        onclick="validarFormulario(event)">
+                        Eliminar Registro
+                    </button>
+                </div>
+            </form>
+            <!--Inicio del modal-->
+            
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">¿Continuar con la eliminación del
+                                registro?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="modalMensaje">
+                            <!-- Aquí aparecerá el mensaje -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" id="confirmarEliminar" style="display: none;"
+                                onclick="eliminarRegistro()">Confirmar Eliminación</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <label for="asignarCasillero" class="form-check-label">Número de Casillero</label>
-                    <input type="number" class="form-control" id="asignarCasillero"
-                        placeholder="Número de casillero asignado" name="asignarCasillero" min="1" max="100">
-
                 </div>
 
-                <div class="col-12">
-                    <button class="btn btn-primary" type="submit">Eliminar Registro</button>
-                </div>
-            </form>
 
 
 
-        </div>
+                <!--Fin del modal-->
+            </div> <!--Fin de formulario para eliminar registros-->
+
+
+
+            <!--Inicio del formulario para actualizar Registro y ver registros-->
+            <div id="formularioUpdate" style="display: none; margin: 30px 40px;">
+                <h2>Busca un Registro mediante la boleta</h2>
+                <nav class=" bg-body-tertiary">
+                    <div class="container-fluid">
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-2" type="search" placeholder="Boleta" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit"
+                                style="background-color: aliceblue; color: black;">Buscar</button>
+                        </form>
+                    </div>
+                </nav>
+            </div>
 
 
 
@@ -402,6 +459,7 @@
     </footer>
 
     <script src="../js/vistaAdmin/admon.js"></script>
+    <script src="../js/vistaAdmin/Formularios/eliminaRegistro.js"></script>
 
 </body>
 
