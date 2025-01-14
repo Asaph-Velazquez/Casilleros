@@ -1,8 +1,6 @@
-
 document.addEventListener('DOMContentLoaded', function () {
     const renovacionInput = document.getElementById('Renovacion');
     const lockerAnterior = document.getElementById('lockerAnterior');
-    const asignarLocker = document.getElementById('asignarLocker');
     const EleccionCURP = document.getElementById('EleccionCURP');
     const botonRegistrar = document.getElementById('Registrar');
     const botonLimpiar = document.getElementById('Limpiar');
@@ -21,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     renovacionInput.addEventListener('click', function () {
         lockerAnterior.style.display = renovacionInput.checked ? 'block' : 'none';
-        asignarLocker.style.display = renovacionInput.checked ? 'none' : 'block';
         botonRegistrar.style.display= renovacionInput.checked ? 'block' : 'none';
         botonLimpiar.style.display = renovacionInput.checked ? 'block' : 'none';
         mostrarCamposRegistro();
@@ -31,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function () {
         botonRegistrar.style.display = 'block';
         botonLimpiar.style.display = 'block';
         lockerAnterior.style.display = 'none';
-        asignarLocker.style.display = 'block';
         mostrarCamposRegistro();
     });
 
