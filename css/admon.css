@@ -64,11 +64,12 @@
       /*Edición del estilo de los casilleros*/
       .contenedor-casilleros{
         display: grid;
-        width: 800px;
+        width: 20%;/* Ajusta al contenedor principal */
         margin: 0 20px;
-        grid-template-columns: repeat(25, 1fr); 
-        grid-template-rows: repeat(4, 1fr);
+        grid-template-columns: repeat(25, 0.5fr); 
+        grid-template-rows: repeat(4, 0.5fr);
         
       }
   
   }
+  
