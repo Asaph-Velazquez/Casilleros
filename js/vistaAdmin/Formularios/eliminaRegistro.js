@@ -1,6 +1,11 @@
-// Función para validar el formulario y mostrar los datos en el modal
+// document.addEventListener('DOMContentLoaded', function () {
+//     const botonEliminar = document.getElementById('eliminarRegistro');
+//     botonEliminar.addEventListener('click', validarFormulario);
+// });
+
+
 function validarFormulario(event) {
-    event.preventDefault(); // Esto previene que el formulario se envíe antes de mostrar el modal
+    event.preventDefault(); // Prevenir el envío del formulario
 
     // Obtener los valores del formulario
     const nombre = document.getElementById('NombreBorrar').value.trim();
@@ -15,7 +20,6 @@ function validarFormulario(event) {
     if (!nombre || !primerApellido || !segundoApellido || !usuarioBorrar || !casilleroBorrar || !boletaBorrar) {
         document.getElementById('modalMensaje').innerHTML = "Por favor, llena todos los campos antes de continuar.";
         confirmarEliminar.style.display = 'none';
-
     } else {
         // Si todos los campos están llenos, mostrar los datos ingresados en el modal
         document.getElementById('modalMensaje').innerHTML = `
@@ -28,6 +32,11 @@ function validarFormulario(event) {
             <p>¿Seguro que deseas eliminar este registro?</p>
         `;
         confirmarEliminar.style.display = 'block'; // Mostrar el botón de confirmar eliminación
+        // Asegurarse de que el formulario no se envíe accidentalmente
+        confirmarEliminar.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevenir acción por defecto
+            eliminarRegistro();
+        });
     }
 
     // Mostrar el modal (Bootstrap Modal)
@@ -35,7 +44,7 @@ function validarFormulario(event) {
     modal.show();
 }
 
-// Función para eliminar el registro y cerrar el modal
+
 function eliminarRegistro() {
     console.log("Registro eliminado");
 
@@ -46,4 +55,3 @@ function eliminarRegistro() {
     // Enviar el formulario para eliminar el registro en el servidor
     document.getElementById('formDelete').submit();  // Esto enviará el formulario
 }
-

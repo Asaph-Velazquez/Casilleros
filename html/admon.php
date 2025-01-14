@@ -1,23 +1,20 @@
 <?php
+// Iniciar la sesión
 session_start();
 
-// Verificar si la sesión está activa y si el usuario es un administrador
-if (!isset($_SESSION['usuario'])) {
-    // Si no hay sesión activa, redirigir a la página principal
+// Verificar si la sesión está activa
+if (!isset($_SESSION['nombreUsuario'])) {
+    // Si no hay sesión activa, redirigir al formulario de login
     header('location: ../html/PagPrincipal.html');
     exit();
 }
-
-// Si el usuario es un administrador
-if ($_SESSION['usuario'] == 'admin') {
-    // Redirigir al administrador a la página del administrador
-    header('location: ../html/admon.php');
-    exit();
+// Incluir el archivo actualizar.php para procesar datos
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    include('../php/Admin/verDatos.php');
 }
 
-// Si no es administrador, redirigir a la página principal o a donde corresponda
-header('location: ../html/PagPrincipal.html');
-exit();
+
+
 ?>
 
 
@@ -40,8 +37,11 @@ exit();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="../js/Solicitud_html/limpiar_form.js"></script>
-    <script src="../js/Solicitud_html/MostarOcultarCamposFormulario.js"></script>
-    <script src="../js/Solicitud_html/Validaciones_Modal.js"></script>
+    <script src="../js/vistaAdmin/Formularios/MostrarOcultarCamposFormularioAdmin.js"></script>
+
+
+    <script src="../js/vistaAdmin/admon.js"></script>
+
 </head>
 
 <body>
@@ -75,7 +75,7 @@ exit();
                         <a class="nav-link active" aria-current="page" href="PagPrincipal.html">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Solicitud.html">Cerrar Sesión</a>
+                        <a class="nav-link" href="../php/Admin/cerrarSesion.php">Cerrar Sesión</a>
                     </li>
 
                 </ul>
@@ -83,14 +83,15 @@ exit();
         </div>
     </nav>
     <main>
-        <h1 style="margin: 10px 20px;">Bienvenido Admin</h1>
+        <h1 style="margin: 10px 20px;">Bienvenido, <?php echo $_SESSION['nombreUsuario']; ?>!</h1>
 
         <div class="mb-3" style="margin: 5px 20px;">
             <label class="form-label">Disponibilidad de Casilleros </label>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="celdaCasilleros" id="MostrarCasilleros"
                     value="MostrarCasilleros">
-                <label class="form-check-label" for="MostrarCasilleros">
+                <label class="form-check-label" for="MostrarCasilleros
+                ">
                     Mostrar Casilleros
                 </label>
             </div>
@@ -102,7 +103,9 @@ exit();
                 </label>
             </div>
         </div>
-        <div class="contenedor-casilleros" id="celda-casilleros" style="display: none;"></div>
+        <div style="width: 750px; ">
+            <div class="contenedor-casilleros" id="celda-casilleros" style="display: none;"></div>
+        </div>
 
 
         <div class="entradas-radio">
@@ -123,7 +126,7 @@ exit();
         <!--FORMULARIO-->
         <div id="formularioIngreso" style="display: none;">
             <div class="container mt-4" id="Formulario">
-                <form id="solicitudForm" action="../php/ProcesarForm.php" method="post" enctype="multipart/form-data">
+                <form id="solicitudForm" action="../php/Admin/ProcesarFormAdmin.php" method="post" enctype="multipart/form-data">
                     <h2>Solicitud de Casillero</h2>
                     <div class="mb-3">
                         <label class="form-label">Tipo de Solicitud</label>
@@ -366,7 +369,7 @@ exit();
                 </div>
             </form>
             <!--Inicio del modal-->
-            
+
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
@@ -386,29 +389,72 @@ exit();
                         </div>
                     </div>
                 </div>
-                </div>
-
-
-
-
-                <!--Fin del modal-->
-            </div> <!--Fin de formulario para eliminar registros-->
-
-
-
-            <!--Inicio del formulario para actualizar Registro y ver registros-->
-            <div id="formularioUpdate" style="display: none; margin: 30px 40px;">
-                <h2>Busca un Registro mediante la boleta</h2>
-                <nav class=" bg-body-tertiary">
-                    <div class="container-fluid">
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Boleta" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit"
-                                style="background-color: aliceblue; color: black;">Buscar</button>
-                        </form>
-                    </div>
-                </nav>
             </div>
+
+            <!--Fin del modal-->
+        </div> <!--Fin de formulario para eliminar registros-->
+
+
+
+        <!--Inicio del formulario para actualizar Registro y ver registros-->
+        <div id="formularioUpdate" style="display: none; margin: 30px 40px;">
+            <h2>Busca un Registro mediante la boleta</h2>
+            <nav class=" bg-body-tertiary">
+                <div class="container-fluid">
+                    <form class="d-flex" role="search" action="" method="post">
+                        <input class="form-control me-2" type="search" placeholder="Boleta" aria-label="Search" id="boletaBuscar" name="boletaBuscar" required>
+                        <button class="btn btn-outline-success" type="submit"
+                            style="background-color: aliceblue; color: black;">Buscar</button>
+                    </form>
+                </div>
+            </nav>
+
+            <!-- Mostrar resultados en tabla -->
+            <?php if (isset($registroEncontrado) && $registroEncontrado): ?>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Primer Apellido</th>
+                            <th scope="col">Segundo Apellido</th>
+                            <th scope="col">Estatura</th>
+                            <th scope="col">Teléfono</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Usuario</th>
+                            <th scope="col">CURP</th>
+                            <th scope="col"> Casillero </th>
+                            <th scope="col">Tipo de Solicitud</th>
+                            <th scope="col">Fecha de Solicitud</th>
+                            <th scope="col"></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+
+                            <td><?= htmlspecialchars($Nombre_Estudiante) ?></td>
+                            <td><?= htmlspecialchars($Primer_Apellido) ?></td>
+                            <td><?= htmlspecialchars($Segundo_Apellido) ?></td>
+                            <td><?= htmlspecialchars($Estatura) ?></td>
+                            <td><?= htmlspecialchars($Telefono) ?></td>
+                            <td><?= htmlspecialchars($Correo) ?></td>
+                            <td><?= htmlspecialchars($Usuario) ?></td>
+                            <td><?= htmlspecialchars($Curp) ?></td>
+                            <td><?= htmlspecialchars($numeroCasillero) ?></td>
+                            <td><?= htmlspecialchars($tipoSolicitud) ?></td>
+                            <td><?= htmlspecialchars($fechaSolicitud) ?></td>
+                            <td>                                
+                                <a href="archivo.php" class="btn btn-outline-primary">Editar</a>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            <?php elseif ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
+                <p>No se encontraron registros con la boleta proporcionada.</p>
+            <?php endif; ?>
+        </div> <!--Fin de formulario para actualizar registros-->
 
 
 
@@ -458,8 +504,11 @@ exit();
         </div>
     </footer>
 
-    <script src="../js/vistaAdmin/admon.js"></script>
+
+    <script src="../js/Solicitud_html/Validaciones_Modal.js"></script>
     <script src="../js/vistaAdmin/Formularios/eliminaRegistro.js"></script>
+
+
 
 </body>
 
