@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </label>
             </div>
         </div>
-        <div style="width: 750px; ">
+        <div style="width: 650px; ">
             <div class="contenedor-casilleros" id="celda-casilleros" style="display: none;"></div>
         </div>
 
@@ -414,6 +414,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <table class="table">
                     <thead>
                         <tr>
+                            <th scope="col">Boleta</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Primer Apellido</th>
                             <th scope="col">Segundo Apellido</th>
@@ -431,7 +432,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </thead>
                     <tbody>
                         <tr>
-
+                            <td><?= htmlspecialchars($Boleta) ?></td>
                             <td><?= htmlspecialchars($Nombre_Estudiante) ?></td>
                             <td><?= htmlspecialchars($Primer_Apellido) ?></td>
                             <td><?= htmlspecialchars($Segundo_Apellido) ?></td>
@@ -443,9 +444,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <td><?= htmlspecialchars($numeroCasillero) ?></td>
                             <td><?= htmlspecialchars($tipoSolicitud) ?></td>
                             <td><?= htmlspecialchars($fechaSolicitud) ?></td>
-                            <td>                                
-                                <a href="archivo.php" class="btn btn-outline-primary">Editar</a>
+                            <td>
+                                <a href="/php/Admin/actualizar.php?boleta=<?= urlencode($Boleta) ?>" class="btn btn-outline-primary">Editar</a>
                             </td>
+
 
                         </tr>
 
@@ -507,8 +509,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <script src="../js/Solicitud_html/Validaciones_Modal.js"></script>
     <script src="../js/vistaAdmin/Formularios/eliminaRegistro.js"></script>
-
-
 
 </body>
 
