@@ -97,7 +97,7 @@ mysqli_close($conexion);
         <div style="margin: 10px 50px;">
         <h2>Actualizar Datos del Estudiante</h2>
         <form class="row g-3" action="../../php/Admin/procesar_actualizacion.php" method="POST">
-            <input type="hidden" name="boleta" value="<?= htmlspecialchars($Boleta) ?>">
+            <input type="hidden" name="boletaActualizar" value="<?= htmlspecialchars($Boleta) ?>">
             <div class="col-md-4">
                 <label for="NombreActualizar" class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="NombreActualizar" required placeholder="Ingresa el nombre"
@@ -111,9 +111,9 @@ mysqli_close($conexion);
             </div>
 
             <div class="col-md-4">
-                <label for="SegundoApellidoAct" class="form-label">Segundo Apellido</label>
-                <input type="text" class="form-control" id="SegundoApellidoAct" required placeholder="Ingresa el segundo apellido"
-                    name="SegundoApellidoAct" value="<?= htmlspecialchars($Segundo_Apellido) ?>" required>
+                <label for="SegundoApellidoActualizar" class="form-label">Segundo Apellido</label>
+                <input type="text" class="form-control" id="SegundoApellidoActualizar" required placeholder="Ingresa el segundo apellido"
+                    name="SegundoApellidoActualizar" value="<?= htmlspecialchars($Segundo_Apellido) ?>" required>
             </div>
 
             <div class="col-md-4">
@@ -135,9 +135,9 @@ mysqli_close($conexion);
             </div>
 
             <div class="col-md-4">
-                <label for="usuarioActulizar" class="form-label">Usuario</label>
-                <input type="text" class="form-control" id="usuarioActulizar" required placeholder="Ingresa el usuario"
-                    name="usuarioActulizar" value="<?= htmlspecialchars($Usuario) ?>" required>
+                <label for="usuarioActualizar" class="form-label">Usuario</label>
+                <input type="text" class="form-control" id="usuarioActualizar" required placeholder="Ingresa el usuario"
+                    name="usuarioActualizar" value="<?= htmlspecialchars($Usuario) ?>" required>
             </div>
 
             <div class="col-md-4">
@@ -147,21 +147,40 @@ mysqli_close($conexion);
             </div>
 
             <div class="col-md-4">
-                <label for="casilleroActualizar" class="form-label">Nuevo Casillero</label>
+                <label for="casilleroActualizar" class="form-label">Casillero</label>
                 <input type="text" name="casilleroActualizar" id="casilleroActualizar" class="form-control" value="<?= htmlspecialchars($numeroCasillero) ?>" required>
 
             </div>
             <div class="col-12">
-                <button type="button" class="btn btn-primary" id="actualizarDatos"
-                    onclick="">
-                    Actualizar
-                </button>
+                 <button type="button" class="btn btn-primary" id="actualizarDatos">Actualizar</button>
             </div>
         </form>
         </div>
     <?php else: ?>
         <p>No se encontró el estudiante con esa boleta.</p>
     <?php endif; ?>
+    <!--Inicio del modal para mostrar los datos a actualizar-->
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">¿Continuar con la eliminación del
+                                registro?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="modalMensaje">
+                            <!-- Aquí aparecerá el mensaje -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" id="confirmarEliminar" style="display: none;"
+                                onclick="eliminarRegistro()">Confirmar Eliminación</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
     <footer class="container-fluid mt-4">
