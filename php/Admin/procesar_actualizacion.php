@@ -1,14 +1,11 @@
 <?php
 session_start();
-header('Content-Type: application/json');
 $conexion = mysqli_connect('localhost', 'root', '', 'casilleros');
 
 // Verificar conexión
 if (!$conexion) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Error de conexión a la base de datos: ' . mysqli_connect_error()
-    ]);
+    $_SESSION['message'] = 'Error de conexión a la base de datos: ' . mysqli_connect_error();
+    header('Location: ../../path/to/actualizacion.php'); // Redirigir a la página de actualización
     exit;
 }
 
@@ -70,41 +67,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 throw new Exception('Error al confirmar la transacción.');
             }
 
-            // Responder éxito
-            echo json_encode([
-                'success' => true,
-                'message' => 'Registro actualizado correctamente.',
-                'datos_actualizados' => [
-                    'boleta' => $Boleta,
-                    'nombre' => $Nombre_Estudiante,
-                    'primer_apellido' => $Primer_Apellido,
-                    'segundo_apellido' => $Segundo_Apellido,
-                    'telefono' => $Telefono,
-                    'correo' => $Correo,
-                    'usuario' => $Usuario,
-                    'curp' => $Curp
-                ]
-            ]);
+            // Mensaje de éxito y redirección con boleta incluida
+            $_SESSION['message'] = 'Registro actualizado correctamente.';
+            header("Location: actualizar.php?boleta=$Boleta"); // Redirigir con la boleta
+            exit;
         }
 
     } catch (Exception $e) {
         // Revertir la transacción en caso de error
         mysqli_rollback($conexion);
 
-        // Responder con error
-        echo json_encode([
-            'success' => false,
-            'message' => $e->getMessage()
-        ]);
-    } finally {
-        // Cerrar conexiones
-        if (isset($estadoVerificacion)) {
-            mysqli_stmt_close($estadoVerificacion);
-        }
-        if (isset($stmt)) {
-            mysqli_stmt_close($stmt);
-        }
-        mysqli_close($conexion);
+        // Mensaje de error y redirección con la boleta incluida
+        $_SESSION['message'] = 'Error: ' . $e->getMessage();
+        header("Location: actualizar.php?boleta=$Boleta"); // Redirigir con la boleta
+        exit;
     }
+} else {
+    // Si no es una solicitud POST, redirigir al formulario
+    header('Location: actualizar.php');
+    exit;
 }
 ?>

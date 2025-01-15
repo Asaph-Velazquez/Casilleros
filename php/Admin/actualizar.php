@@ -27,6 +27,12 @@ if (mysqli_num_rows($resultado) > 0) {
     $Curp = $fila['curp'];
     $numeroCasillero = $fila['numero_casillero'];
 }
+// Verificar si hay un mensaje en la sesión y mostrar un alert
+if (isset($_SESSION['message'])) {
+    echo "<script>alert('" . $_SESSION['message'] . "');</script>";
+    // Limpiar el mensaje de la sesión para evitar que se muestre en futuras cargas de página
+    unset($_SESSION['message']);
+}
 mysqli_close($conexion);
 
 ?>
@@ -45,8 +51,9 @@ mysqli_close($conexion);
     <link rel="stylesheet" href="../../css/Navbar_y_slider.css">
     <link rel="icon" type="image/png" href="../../imgs/logoEquipo.png">
     <link rel="stylesheet" href="../../css/app.css">
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+        <script src="../../js/vistaAdmin/Formularios/actualizarDatos.js"></script>
 
 
 
@@ -90,71 +97,74 @@ mysqli_close($conexion);
             </div>
         </div>
     </nav>
-    
+
 
     <!-- Verificamos si se encontraron los datos del estudiante -->
     <?php if (isset($Nombre_Estudiante)): ?>
         <div style="margin: 10px 50px;">
-        <h2>Actualizar Datos del Estudiante</h2>
-        <form class="row g-3" action="../../php/Admin/procesar_actualizacion.php" method="POST">
-            <input type="hidden" name="boletaActualizar" value="<?= htmlspecialchars($Boleta) ?>">
-            <div class="col-md-4">
-                <label for="NombreActualizar" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="NombreActualizar" required placeholder="Ingresa el nombre"
-                    name="NombreActualizar" value="<?= htmlspecialchars($Nombre_Estudiante) ?> " required>
-            </div>
+            <h2>Actualizar Datos del Estudiante</h2>
+            <form class="row g-3" action="../../php/Admin/procesar_actualizacion.php" method="POST" id="consultarActualizacion">
+                <input type="hidden" name="boletaActualizar" value="<?= htmlspecialchars($Boleta) ?>">
+                <div class="col-md-4">
+                    <label for="NombreActualizar" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="NombreActualizar" required placeholder="Ingresa el nombre"
+                        name="NombreActualizar" value="<?= htmlspecialchars($Nombre_Estudiante) ?> " required>
+                </div>
 
-            <div class="col-md-4">
-                <label for="PrimerApellidoActualizar" class="form-label">Primer Apellido</label>
-                <input type="text" class="form-control" id="PrimerApellidoActualizar" required placeholder="Ingresa el primer apellido"
-                    name="PrimerApellidoActualizar" value="<?= htmlspecialchars($Primer_Apellido) ?>" required>
-            </div>
+                <div class="col-md-4">
+                    <label for="PrimerApellidoActualizar" class="form-label">Primer Apellido</label>
+                    <input type="text" class="form-control" id="PrimerApellidoActualizar" required placeholder="Ingresa el primer apellido"
+                        name="PrimerApellidoActualizar" value="<?= htmlspecialchars($Primer_Apellido) ?>" required>
+                </div>
 
-            <div class="col-md-4">
-                <label for="SegundoApellidoActualizar" class="form-label">Segundo Apellido</label>
-                <input type="text" class="form-control" id="SegundoApellidoActualizar" required placeholder="Ingresa el segundo apellido"
-                    name="SegundoApellidoActualizar" value="<?= htmlspecialchars($Segundo_Apellido) ?>" required>
-            </div>
+                <div class="col-md-4">
+                    <label for="SegundoApellidoActualizar" class="form-label">Segundo Apellido</label>
+                    <input type="text" class="form-control" id="SegundoApellidoActualizar" required placeholder="Ingresa el segundo apellido"
+                        name="SegundoApellidoActualizar" value="<?= htmlspecialchars($Segundo_Apellido) ?>" required>
+                </div>
 
-            <div class="col-md-4">
-                <label for="EstaturaActualizar" class="form-label">Estatura</label>
-                <input type="text" class="form-control" id="EstaturaActualizar" required placeholder="Ingresa la estatura"
-                    name="EstaturaActualizar" value="<?= htmlspecialchars($Estatura) ?>" required>
-            </div>
+                <div class="col-md-4">
+                    <label for="EstaturaActualizar" class="form-label">Estatura</label>
+                    <input type="text" class="form-control" id="EstaturaActualizar" required placeholder="Ingresa la estatura"
+                        name="EstaturaActualizar" value="<?= htmlspecialchars($Estatura) ?>" required>
+                </div>
 
-            <div class="col-md-4">
-                <label for="TelefonoActualizar" class="form-label">Teléfono</label>
-                <input type="text" class="form-control" id="TelefonoActualizar" required placeholder="Ingresa el teléfono"
-                    name="TelefonoActualizar" value="<?= htmlspecialchars($Telefono) ?>" required>
-            </div>
+                <div class="col-md-4">
+                    <label for="TelefonoActualizar" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" id="TelefonoActualizar" required placeholder="Ingresa el teléfono"
+                        name="TelefonoActualizar" value="<?= htmlspecialchars($Telefono) ?>" required>
+                </div>
 
-            <div class="col-md-4">
-                <label for="correoActualizar" class="form-label">Correo</label>
-                <input type="email" class="form-control" id="correoActualizar" required placeholder="Ingresa el correo"
-                    name="correoActualizar" value="<?= htmlspecialchars($Correo) ?>" required>
-            </div>
+                <div class="col-md-4">
+                    <label for="correoActualizar" class="form-label">Correo</label>
+                    <input type="email" class="form-control" id="correoActualizar" required placeholder="Ingresa el correo"
+                        name="correoActualizar" value="<?= htmlspecialchars($Correo) ?>" required>
+                </div>
 
-            <div class="col-md-4">
-                <label for="usuarioActualizar" class="form-label">Usuario</label>
-                <input type="text" class="form-control" id="usuarioActualizar" required placeholder="Ingresa el usuario"
-                    name="usuarioActualizar" value="<?= htmlspecialchars($Usuario) ?>" required>
-            </div>
+                <div class="col-md-4">
+                    <label for="usuarioActualizar" class="form-label">Usuario</label>
+                    <input type="text" class="form-control" id="usuarioActualizar" required placeholder="Ingresa el usuario"
+                        name="usuarioActualizar" value="<?= htmlspecialchars($Usuario) ?>" required>
+                </div>
 
-            <div class="col-md-4">
-                <label for="curpActualizar" class="form-label">CURP</label>
-                <input type="text" class="form-control" id="curpActualizar" required placeholder="Ingresa la CURP"
-                    name="curpActualizar" value="<?= htmlspecialchars($Curp) ?>" required>
-            </div>
+                <div class="col-md-4">
+                    <label for="curpActualizar" class="form-label">CURP</label>
+                    <input type="text" class="form-control" id="curpActualizar" required placeholder="Ingresa la CURP"
+                        name="curpActualizar" value="<?= htmlspecialchars($Curp) ?>" required>
+                </div>
 
-            <div class="col-md-4">
-                <label for="casilleroActualizar" class="form-label">Casillero</label>
-                <input type="text" name="casilleroActualizar" id="casilleroActualizar" class="form-control" value="<?= htmlspecialchars($numeroCasillero) ?>" required>
+                <div class="col-md-4">
+                    <label for="casilleroActualizar" class="form-label">Casillero</label>
+                    <input type="text" name="casilleroActualizar" id="casilleroActualizar" class="form-control" value="<?= htmlspecialchars($numeroCasillero) ?>" required>
 
-            </div>
-            <div class="col-12">
-                 <button type="button" class="btn btn-primary" id="actualizarDatos">Actualizar</button>
-            </div>
-        </form>
+                </div>
+                <div class="col-12">
+                    <button type="button" class="btn btn-primary" id="actualizarDatos" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        onclick="enviarActualizacion(event)">
+                        Actualizar Datos
+                    </button>
+                </div>
+            </form>
         </div>
     <?php else: ?>
         <p>No se encontró el estudiante con esa boleta.</p>
@@ -166,7 +176,7 @@ mysqli_close($conexion);
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">¿Continuar con la eliminación del
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">¿Continuar con la actualización del
                                 registro?</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -175,12 +185,16 @@ mysqli_close($conexion);
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" id="confirmarEliminar" style="display: none;"
-                                onclick="eliminarRegistro()">Confirmar Eliminación</button>
+                            <button type="button" class="btn btn-primary" id="updateDatos" style="display: none;"
+                                onclick="actualizarDatos()">Confirmar Actualizacion</button>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+
+
 
 
     <footer class="container-fluid mt-4">
@@ -228,6 +242,7 @@ mysqli_close($conexion);
         </div>
     </footer>
 
+    
 </body>
 
 </html>

@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $estatura = $_POST['Estatura'] ?? '';
         $usuario = $_POST['Usuario'] ?? '';
         $contrasena = $_POST['Contraseña'] ?? '';
-        $lockerAnterior = $_POST['CasilleroAnterior'] ?? null;
+        $lockerAnterior = $_POST['CasilleroAnterior'] ?? '';
 
         // Validar datos obligatorios
         if (empty($tipoSolicitud) || empty($curp) || empty($nombre) || empty($correo) || empty($boleta) || empty($usuario) || empty($contrasena)) {
