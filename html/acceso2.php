@@ -4,6 +4,8 @@ session_start();
 
 // Recuperar los datos de la sesión
 $nombreUsuario = $_SESSION['nombreUsuario'] ?? null;
+$_SESSION['descargar'] = 'N';
+$datosUsuario = $_SESSION['datosUsuario'] ?? null;
 
 ?>
 
@@ -67,30 +69,12 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? null;
     </div>
   </nav>
 
-  <!-- Colocar contenido de acceso para solicitud por primera vex -->
-
 <!--FORMULARIO-->
-<div class="container mt-4" id="Formulario">
-    <form id="solicitudForm" action="../php/ProcesarForm.php" method="post" enctype="multipart/form-data">
-        <h2 class="mb-3">Bienvenido <?php echo htmlspecialchars($nombreUsuario); ?></h2>
+    <div class="container mt-4" id="Formulario">
+        <form id="solicitudForm" action="../php/ProcesarForm.php" method="post" enctype="multipart/form-data">
+            <h2 class="mb-3">Bienvenido <?php echo htmlspecialchars($nombreUsuario); ?></h2>
 
-        <div class="mb-5">
-
-            <div id="EleccionCredencial" class="mb-3">
-                <label for="Credencial" class="form-label">Comprobante de pago</label>
-                <input type="file" class="form-control" id="Credencial" name="Credencial" accept=".PDF">
-                <div class="mensaje-invalido"></div>
-            </div>
-
-        </div>
-
-        <div class="mt-4">
-            <div class="col d-flex justify-content-center">
-                <button type="button" class="btn btn-primary" id="Enviar" onclick="subida();">Enviar</button>
-            </div>
-        </div>     
-        
-        <div class="mb-2" style="display: none;">
+            <div class="mb-2" id="contenidoAcuerdo" style="display: none;">
                 <h3 class="pt-3">ACUERDO DE RESPONSABILIDADES EN EL USO DEL CASILLERO 2024</h3>
 
                 <p class="pt-2"><b>Se autoriza</b> que utilices el casillero señalado durante el ciclo escolar <b><u>agosto 2024- febrero 2025</u></b>,
@@ -143,13 +127,28 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? null;
                 </p>
             </div>
 
-            <div class="mt-4" style="display: none;">
-            <div class="col d-flex justify-content-center">
-                <button type="button" class="btn btn-primary" id="generarAcuse" onclick="subida();">Generar acuse</button>
+            <div class="mb-5">
+                <div id="EleccionCredencial" class="mb-3">
+                    <label for="Credencial" class="form-label" id="etiquetaComp">Comprobante de pago</label>
+                    <input type="file" class="form-control" id="comprobanteFile" name="comprobanteFile" accept=".PDF">
+                </div>
             </div>
-        </div>
-    </form>
-</div>
+
+            <div class="mt-4">
+                <div class="col d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary" id="btnEnviarComprobante">Enviar</button>
+                    <button type="button" class="btn btn-primary" id="btnGenerarAcuse" style="display: none;">Generar acuse</button>
+                </div>
+            </div>
+
+            
+            <div class="mt-4">
+                <div class="col d-flex justify-content-center" id="mensajeComprobacion">
+                </div>
+            </div>
+
+        </form>
+    </div>
 
 
   
@@ -190,5 +189,63 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? null;
         </div>
     </div>
   </footer>
+
+  <script>
+    const uploadForm = document.getElementById("btnEnviarComprobante");
+    const btnGenerarAcuse = document.getElementById("btnGenerarAcuse");
+
+    uploadForm.addEventListener("click", async (event) => {
+        event.preventDefault(); // Evita la recarga de la página
+
+        // Obtener referencias a los elementos
+        const fileInput = document.getElementById('comprobanteFile');
+        const messageDiv = document.getElementById('mensajeComprobacion');
+        const etiqueta = document.getElementById('etiquetaComp');
+        const acuerdo = document.getElementById('contenidoAcuerdo');
+
+        messageDiv.textContent = '';
+
+        // Validar si se seleccionó un archivo
+        if (!fileInput.files.length) {
+            messageDiv.textContent = 'Debes subir el comprobante de pago';
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const formData = new FormData();
+        formData.append("comprobanteFile", file);
+
+        try {
+            // Enviar archivo al servidor
+            const response = await fetch('../php/ProcesarComprobante.php', {
+                method: "POST",
+                body: formData,
+            });
+
+            if (response.ok) {
+                // Oculta el formulario y muestra un nuevo botón
+                uploadForm.style.display = "none";
+                fileInput.style.display = "none";
+                etiqueta.style.display = "none";
+                acuerdo.style.display = "block";
+                btnGenerarAcuse.style.display = "block";
+            } else {
+                alert("Error al enviar el archivo.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Hubo un problema al enviar el archivo.");
+        }
+    });
+
+    btnGenerarAcuse.addEventListener('click', () => {
+        // Abrir el PDF en una nueva pestaña
+        const nuevaP = window.open('../php/genPDF.php', '_blank');
+        const boleta = "<?php echo $datosUsuario['boleta']; ?>";
+        const nombreArchivo = boleta + ".pdf";
+        nuevaP.document.title = nombreArchivo; // Establecer el nombre como título de la pestaña
+    });
+
+</script>
 </body>
 </html>

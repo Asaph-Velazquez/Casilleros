@@ -5,7 +5,8 @@ session_start();
 // Recuperar los datos de la sesión
 $nombreUsuario = $_SESSION['nombreUsuario'] ?? null;
 $datosUsuario = $_SESSION['datosUsuario'] ?? null;
-$noCasillero = $_SESSION['noCasillero'] ?? '0';
+$noCasillero = $_SESSION['noCasillero'] ?? '-';
+$_SESSION['descargar'] = 'N';
 ?>
 
 <!DOCTYPE html>
@@ -72,7 +73,7 @@ $noCasillero = $_SESSION['noCasillero'] ?? '0';
 
     <!-- Colocar contenido de acceso para solicitud por primera vex -->
 
-    <!--FORMULARIO-->
+  <!--FORMULARIO-->
     <div class="container mt-4" id="Formulario">
         <form id="solicitudForm" action="../php/ProcesarForm.php" method="post" enctype="multipart/form-data">
             <h2 class="mb-3">Bienvenido <?php echo htmlspecialchars($nombreUsuario); ?></h2>
@@ -90,7 +91,7 @@ $noCasillero = $_SESSION['noCasillero'] ?? '0';
 
             <div class="mt-4">
                 <div class="col d-flex justify-content-between">
-                    <button type="button" class="btn btn-primary" id="Enviar">Ver Acuse</button>
+                    <button type="button" class="btn btn-primary" id="generarAcuse">Ver Acuse</button>
                     <button type="reset" class="btn btn-warning" id="cerrarSesion">Cerrar sesión</button>
                 </div>
             </div>
@@ -137,6 +138,16 @@ $noCasillero = $_SESSION['noCasillero'] ?? '0';
             </div>
         </div>
     </footer>
+    <script>
+        const btnGenerarAcuse = document.getElementById("generarAcuse");
+
+        btnGenerarAcuse.addEventListener('click', () => {
+            const nuevaP = window.open('../php/genPDF.php', '_blank');
+            const boleta = "<?php echo $datosUsuario['boleta']; ?>";
+            const nombreArchivo = boleta + ".pdf";
+            nuevaP.document.title = nombreArchivo; // Establecer el nombre como título de la pestaña
+        });
+    </script>
 </body>
 
 </html>
