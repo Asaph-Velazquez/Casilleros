@@ -1,12 +1,10 @@
 <?php
-header('Content-Type: application/json');
+session_start();
 $conexion = mysqli_connect('localhost', 'root', '', 'casilleros');
 
 if (!$conexion) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Error de conexión a la base de datos: ' . mysqli_connect_error()
-    ]);
+    $_SESSION['error'] = 'Error de conexión a la base de datos: ' . mysqli_connect_error();
+    header('Location: /ruta/a/tu/formulario.php');
     exit;
 }
 
@@ -24,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                       AND usuario = ? AND boleta = ?";
         $stmt = mysqli_prepare($conexion, $verificar);
         mysqli_stmt_bind_param($stmt, 'sssss', $nombreBorrar, $primerApellidoBorrar, $segundoApellidoBorrar, $usuarioBorrar, $boletaBorrar);
-        
+
         if (!mysqli_stmt_execute($stmt)) {
             throw new Exception('Error al verificar los datos: ' . mysqli_error($conexion));
         }
@@ -56,22 +54,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception('Error al eliminar el estudiante: ' . mysqli_error($conexion));
         }
 
-        echo json_encode([
-            'success' => true,
-            'message' => 'El estudiante y sus registros relacionados han sido eliminados correctamente.'
-        ]);
+        $_SESSION['success'] = 'El estudiante y sus registros relacionados han sido eliminados correctamente.';
+        header('location: ../../html/admon.php');
+        exit;
     } catch (Exception $e) {
-        echo json_encode([
-            'success' => false,
-            'message' => $e->getMessage()
-        ]);
+        $_SESSION['error'] = $e->getMessage();
+        header('location: ../../html/admon.php');
+        exit;
     } finally {
         mysqli_close($conexion);
     }
 } else {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Método HTTP no permitido.'
-    ]);
+    $_SESSION['error'] = 'Método HTTP no permitido.';
+    header('location: ../../html/admon.php');
+    exit;
 }
 ?>
