@@ -33,7 +33,8 @@
             'nombre' => htmlspecialchars($row['nombre'] ?? 'pruebaNombre'),
             'primer_apellido' => htmlspecialchars($row['primer_apellido'] ?? 'pruebaAp1'),
             'segundo_apellido' => htmlspecialchars($row['segundo_apellido'] ?? 'pruebaAp2'),
-            'correo' => htmlspecialchars($row['correo'] ?? 'prueba@gmail.com')
+            'correo' => htmlspecialchars($row['correo'] ?? 'prueba@gmail.com'),
+            'boleta' => htmlspecialchars($row['boleta'] ?? ''),
         ];
 
 
@@ -49,7 +50,7 @@
             }
             $filaSolicitud = mysqli_fetch_assoc($resultadoSolicitud);
             $estatusS = $filaSolicitud['estatus'];
-            
+            $_SESSION["noCasillero"] = $filaSolicitud['numero_casillero'];
 
             if($estatusS == 'Asignado'){ //Mostrar solo la opcion de imprimir acuse y cerrar sesión
                 header("Location: ../html/acceso3.php");
