@@ -3,8 +3,8 @@
 session_start();
 
 // Recuperar los datos de la sesión
+$nombreUsuario = $_SESSION['nombreUsuario'] ?? null;
 $mensaje = $_SESSION['msj'] ?? null;
-
 ?>
 
 <!DOCTYPE html>
@@ -67,16 +67,14 @@ $mensaje = $_SESSION['msj'] ?? null;
     </div>
   </nav>
 
-  <!-- Colocar contenido de acceso para solicitud por primera vex -->
 
-<!--FORMULARIO-->
 <div class="container mt-4" id="seccion">
-    
+    <h2 class="mb-4">Bienvenido <?php echo htmlspecialchars($nombreUsuario); ?></h2>
     <!-- mensaje a mostrar -->
-    <h2 class="mb-3"><?php echo htmlspecialchars($mensaje); ?></h2> 
+    <h2 class="mb-3 pt-3"><?php echo htmlspecialchars($mensaje); ?></h2> 
+    <br><br>
     
 </div>
-
 
   
   <footer class="container-fluid mt-4">

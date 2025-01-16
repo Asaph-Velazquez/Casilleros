@@ -57,6 +57,15 @@ if (mysqli_num_rows($resultado) > 0) {
     }
 }
 
+// Consulta para obtener todos los registros
+$consultaTodos = "SELECT * FROM estudiantes";
+$resultadoTodos = mysqli_query($conexion, $consultaTodos);
+
+// Verificar si la consulta tuvo éxito
+if (!$resultadoTodos) {
+    die('Error en la consulta: ' . mysqli_error($conexion));
+}
+
 // Cerrar conexión
 mysqli_close($conexion);
 ?>

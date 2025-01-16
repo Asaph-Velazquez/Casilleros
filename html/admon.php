@@ -40,8 +40,10 @@ if (isset($_SESSION['error'])) {
     <link rel="stylesheet" href="../css/admon.css">
     
  
-    <script src="../js/vistaAdmin/Formularios/Validaciones_Modal.js"></script>
+    <script src="../js/Solicitud_html/Validaciones_Modal.js" ></script> 
+    <script src="../js/vistaAdmin/Formularios/eliminaRegistro.js" defer ></script>
     <script src="../js/vistaAdmin/Formularios/MostrarOcultarCamposFormularioAdmin.js" ></script>
+    <script src="../js/Solicitud_html/Validaciones_Modal.js" ></script> 
     
     <script src="../js/Solicitud_html/limpiar_form.js" defer></script>
     
@@ -307,9 +309,85 @@ if (isset($_SESSION['error'])) {
                             </div>
                         </div>
                     </div>
+
+
+                    <!--Modal2-->
+                   
+
                 </form>
             </div>
         </div> <!--Fin de formulario para agregar nuevos registros-->
+
+        <!--Inicio del formulario para eliminar Registro-->
+        <div id="formularioEliminar" style="display: none; margin: 30px 50px;">
+            <h2>Eliminar Registro</h2>
+            <form class="row g-3" autocomplete="off" action="../php/Admin/borrarRegistros.php
+            " method="post" id="formDelete">
+                <!-- Campos del formulario -->
+                <div class="col-md-4">
+                    <label for="NombreBorrar" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="NombreBorrar" required placeholder="Ingresa el nombre"
+                        name="NombreBorrar">
+                </div>
+                <div class="col-md-4">
+                    <label for="primerApellidoBorrar" class="form-label">Primer Apellido</label>
+                    <input type="text" class="form-control" id="primerApellidoBorrar" name="primerApellidoBorrar"
+                        required placeholder="Ingresa el primer apellido">
+                </div>
+                <div class="col-md-4">
+                    <label for="segundoApellidoBorrar" class="form-label">Segundo Apellido</label>
+                    <input type="text" class="form-control" id="segundoApellidoBorrar" name="segundoApellidoBorrar"
+                        required placeholder="Ingresa el segundo apellido">
+                </div>
+                <div class="col-md-4">
+                    <label for="validarUsuario" class="form-label">Usuario</label>
+                    <input type="text" class="form-control" id="validarUsuario" placeholder="Ingresa tu usuario"
+                        name="validarUsuario">
+                </div>
+                <div class="col-md-4">
+                    <label for="casilleroBorrar" class="form-label">Número de Casillero</label>
+                    <input type="number" class="form-control" id="casilleroBorrar"
+                        placeholder="Número de casillero asignado" name="casilleroBorrar" min="1" max="100" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="boletaBorrar" class="form-label">No. Boleta</label>
+                    <input type="text" class="form-control" id="boletaBorrar" placeholder="Boleta" name="boletaBorrar"
+                        required>
+                </div>
+                <div class="col-12">
+                    <button type="button" class="btn btn-primary" id="borrarRegistro"
+                        onclick="validarFormulario(event)">
+                        Eliminar Registro
+                    </button>
+                </div>
+            </form>
+            <!--Inicio del modal-->
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">¿Continuar con la eliminación del
+                                registro?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="modalMensaje">
+                            <!-- Aquí aparecerá el mensaje -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" id="confirmarEliminar" style="display: none;"
+                                onclick="eliminarRegistro()">Confirmar Eliminación</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Fin del modal-->
+        </div> <!--Fin de formulario para eliminar registros-->
+
+
 
         <!--Inicio del formulario para actualizar Registro y ver registros-->
         <div id="formularioUpdate" style="display: none; margin: 30px 40px;">
@@ -326,7 +404,7 @@ if (isset($_SESSION['error'])) {
 
             <!-- Mostrar resultados en tabla -->
             <?php if (isset($registroEncontrado) && $registroEncontrado): ?>
-                <div class="table-responsive">
+                <div class="table-responsive" >
                 <table class="table">
                     <thead>
                         <tr>
@@ -362,8 +440,7 @@ if (isset($_SESSION['error'])) {
                             <td><?= htmlspecialchars($fechaSolicitud) ?></td>
                             <td>
                             <a href="../php/Admin/actualizar.php?boleta=<?= urlencode($Boleta) ?>" class="btn btn-outline-primary">Editar</a>
-                            <br><br>
-                            <a href="../php/Admin/borrarRegistros.php?boleta=<?= urlencode($Boleta) ?>" class="btn btn-outline-danger">Eliminar</a>
+                            <a href="../php/Admin/borrarRegistros.php?boleta=<?= urlencode($Boleta) ?>" class="btn btn-outline-primary">Eliminar</a>
                             </td>
 
 
@@ -424,6 +501,8 @@ if (isset($_SESSION['error'])) {
             </div>
         </div>
     </footer>
+    
+
     
     
     <script src="../js/vistaAdmin/admon.js" ></script>
