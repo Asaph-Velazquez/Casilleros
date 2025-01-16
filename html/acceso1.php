@@ -4,7 +4,8 @@ session_start();
 
 // Recuperar los datos de la sesión
 $nombreUsuario = $_SESSION['nombreUsuario'] ?? null;
-
+$datosUsuario = $_SESSION['datosUsuario'] ?? null;
+$_SESSION['descargar'] = 'S';
 ?>
 
 <!DOCTYPE html>
@@ -69,7 +70,7 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? null;
         </div>
     </nav>
 
-    <!-- Colocar contenido de acceso para solicitud por primera vex -->
+    <!-- Colocar contenido de acceso para solicitud por primera vez -->
 
     <!--FORMULARIO-->
     <div class="container mt-4" id="Formulario">
@@ -150,16 +151,21 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? null;
             <div class="mb-5">
 
                 <div id="EleccionCredencial" class="mb-3">
-                    <label for="Credencial" class="form-label">Comprobante de pago</label>
-                    <input type="file" class="form-control" id="Credencial" name="Credencial" accept=".PDF">
-                    <div class="mensaje-invalido"></div>
+                    <label for="Credencial" class="form-label" id="etiquetaComp">Comprobante de pago</label>
+                    <input type="file" class="form-control" id="comprobanteFile" name="comprobanteFile" accept=".PDF">
                 </div>
 
             </div>
 
             <div class="mt-4">
                 <div class="col d-flex justify-content-center">
-                    <button type="button" class="btn btn-primary" id="Enviar" onclick="">Enviar</button>
+                    <button type="button" class="btn btn-primary" id="btnEnviarComprobante">Enviar</button>
+                    <button type="button" class="btn btn-primary" id="btnGenerarAcuse" style="display: none;">Generar acuse</button>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <div class="col d-flex justify-content-center" id="mensajeComprobacion">
                 </div>
             </div>
 
@@ -205,6 +211,86 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? null;
             </div>
         </div>
     </footer>
+
+    <script>
+        const uploadForm = document.getElementById("btnEnviarComprobante");
+        const btnComprobante = document.getElementById("btnGenerarAcuse");
+
+        uploadForm.addEventListener("click", async (event) => {
+            event.preventDefault(); // Evita la recarga de la página
+
+            // Obtener referencias a los elementos
+            const checkbox = document.getElementById('invalidCheck');
+            const fileInput = document.getElementById('comprobanteFile');
+            const messageDiv = document.getElementById('mensajeComprobacion');
+            const etiqueta = document.getElementById('etiquetaComp');
+
+            messageDiv.textContent = '';
+            // Validar si el checkbox está marcado
+            if (!checkbox.checked) {
+                messageDiv.textContent = 'Debes aceptar el acuerdo de responsabilidades.';
+                return;
+            }
+            // Validar si se seleccionó un archivo
+            if (!fileInput.files.length) {
+                messageDiv.textContent = 'Debes subir el comprobante de pago';
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append("comprobanteFile", file);
+
+            try {
+                // Enviar archivo al servidor
+                const response = await fetch('../php/ProcesarComprobante.php', {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    // Oculta el formulario y muestra un nuevo botón
+                    uploadForm.style.display = "none";
+                    fileInput.style.display = "none";
+                    etiqueta.style.display = "none";
+                    btnComprobante.style.display = "block";
+                    checkbox.disabled = !checkbox.disabled;
+
+                } else {
+                    alert("Error al enviar el archivo.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Hubo un problema al enviar el archivo.");
+            }
+        });
+
+        btnComprobante.addEventListener("click", () => {
+            fetch('../php/genPDF.php')
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Error al generar el PDF");
+                    }
+                    return response.blob(); // Convertir la respuesta a un archivo Blob
+                })
+                .then((blob) => {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    const boleta = "<?php echo $datosUsuario['boleta']; ?>";
+                    a.href = url;
+                    a.download =  boleta + ".pdf"; // Nombre del archivo
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    alert("Hubo un problema al descargar el PDF.");
+                });
+        });
+    </script>
+
 </body>
 
 </html>

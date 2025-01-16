@@ -12,6 +12,14 @@ if (!isset($_SESSION['nombreUsuario'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     include('../php/Admin/verDatos.php');
 }
+if (isset($_SESSION['success'])) {
+    echo "<script>alert('" . $_SESSION['success'] . "');</script>";
+    unset($_SESSION['success']);
+}
+if (isset($_SESSION['error'])) {
+    echo "<script>alert('" . $_SESSION['error'] . "');</script>";
+    unset($_SESSION['error']);
+}
 
 
 
@@ -34,13 +42,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../css/app.css">
     <link rel="icon" type="image/png" href="../imgs/logoEquipo.png">
     <link rel="stylesheet" href="../css/admon.css">
+ 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="../js/Solicitud_html/limpiar_form.js"></script>
-    <script src="../js/vistaAdmin/Formularios/MostrarOcultarCamposFormularioAdmin.js"></script>
-
-
-    <script src="../js/vistaAdmin/admon.js"></script>
+    <script src="../js/Solicitud_html/Validaciones_Modal.js" ></script> 
+    <script src="../js/vistaAdmin/Formularios/eliminaRegistro.js" defer ></script>
+    <script src="../js/vistaAdmin/Formularios/MostrarOcultarCamposFormularioAdmin.js" ></script>
+    
+    
+    <script src="../js/Solicitud_html/limpiar_form.js" defer></script>
+   
 
 </head>
 
@@ -103,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </label>
             </div>
         </div>
-        <div style="width: 650px; ">
+        <div style="width: 750px; ">
             <div class="contenedor-casilleros" id="celda-casilleros" style="display: none;"></div>
         </div>
 
@@ -303,23 +313,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                     <!--Modal2-->>
-                    <div class="modal" tabindex="-1" id="MensajeModal">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Instrucciones</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p id="mensajeModalTexto"></p> <!-- Aquí se mostrará el mensaje -->
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                   
 
                 </form>
             </div>
@@ -445,7 +439,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <td><?= htmlspecialchars($tipoSolicitud) ?></td>
                             <td><?= htmlspecialchars($fechaSolicitud) ?></td>
                             <td>
-                                <a href="/php/Admin/actualizar.php?boleta=<?= urlencode($Boleta) ?>" class="btn btn-outline-primary">Editar</a>
+                            <a href="../php/Admin/actualizar.php?boleta=<?= urlencode($Boleta) ?>" class="btn btn-outline-primary">Editar</a>
+
                             </td>
 
 
@@ -505,11 +500,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </footer>
-
-
-    <script src="../js/Solicitud_html/Validaciones_Modal.js"></script>
-    <script src="../js/vistaAdmin/Formularios/eliminaRegistro.js"></script>
-
+    
+    <script src="../js/vistaAdmin/admon.js" ></script>
+    
+ 
+   
 </body>
 
 </html>

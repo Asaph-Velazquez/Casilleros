@@ -1,7 +1,3 @@
-// document.addEventListener('DOMContentLoaded', function () {
-//     const botonEliminar = document.getElementById('eliminarRegistro');
-//     botonEliminar.addEventListener('click', validarFormulario);
-// });
 
 
 function validarFormulario(event) {

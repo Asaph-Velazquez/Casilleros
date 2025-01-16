@@ -50,7 +50,7 @@
   @media (max-width: 1000px ) {
     .contenedor-casilleros{
         display: grid;
-        width: auto;
+        width: 100%;
         margin: 0 20px;
         grid-template-columns: repeat(2, 1fr); 
         grid-template-rows: repeat(1, 1fr);
@@ -64,7 +64,7 @@
       /*Edición del estilo de los casilleros*/
       .contenedor-casilleros{
         display: grid;
-        width: 20%;/* Ajusta al contenedor principal */
+        width: 10%;/* Ajusta al contenedor principal */
         margin: 0 20px;
         grid-template-columns: repeat(25, 0.5fr); 
         grid-template-rows: repeat(4, 0.5fr);
