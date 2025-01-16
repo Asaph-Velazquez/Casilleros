@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $usuario = $_POST['Usuario'] ?? '';
         $contrasena = $_POST['Contraseña'] ?? '';
         $lockerAnterior = $_POST['CasilleroAnterior'] ?? '';
+        $numeroCasillero = $_POST['NumeroCasillero'] ?? null;
 
         // Validar datos obligatorios
         if (empty($tipoSolicitud) || empty($curp) || empty($nombre) || empty($correo) || empty($boleta) || empty($usuario) || empty($contrasena)) {
@@ -54,38 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception('El correo, boleta o usuario ya están registrados.');
         }
 
-        // Manejo de archivos
-        $rutaCredencial = null;
-        $rutaHorario = null;
-        $uploadDir = 'uploads/';
-
-        // Crear directorio si no existe
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
-
-        // Manejo del archivo Credencial
-        if (isset($_FILES['Credencial']) && $_FILES['Credencial']['error'] === UPLOAD_ERR_OK) {
-            $extension = pathinfo($_FILES['Credencial']['name'], PATHINFO_EXTENSION);
-            $nombreUnico = uniqid('credencial_', true) . '.' . $extension;
-            $rutaCredencial = $uploadDir . $nombreUnico;
-
-            if (!move_uploaded_file($_FILES['Credencial']['tmp_name'], $rutaCredencial)) {
-                throw new Exception('Error al guardar el archivo de credencial.');
-            }
-        }
-
-        // Manejo del archivo Horario
-        if (isset($_FILES['Horario']) && $_FILES['Horario']['error'] === UPLOAD_ERR_OK) {
-            $extension = pathinfo($_FILES['Horario']['name'], PATHINFO_EXTENSION);
-            $nombreUnico = uniqid('horario_', true) . '.' . $extension;
-            $rutaHorario = $uploadDir . $nombreUnico;
-
-            if (!move_uploaded_file($_FILES['Horario']['tmp_name'], $rutaHorario)) {
-                throw new Exception('Error al guardar el archivo de horario.');
-            }
-        }
-
         // Comenzar transacción
         mysqli_begin_transaction($conexion);
 
@@ -93,16 +62,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $hashedPassword = password_hash($contrasena, PASSWORD_BCRYPT);
 
         // Insertar datos en la tabla estudiantes
-        $stmt = mysqli_prepare($conexion, "INSERT INTO estudiantes (curp, nombre, primer_apellido, segundo_apellido, telefono, correo, boleta, estatura, usuario, contraseña, credencial, horario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = mysqli_prepare($conexion, "INSERT INTO estudiantes (curp, nombre, primer_apellido, segundo_apellido, telefono, correo, boleta, estatura, usuario, contraseña) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         
         if (!$stmt) {
             throw new Exception('Error al preparar la consulta: ' . mysqli_error($conexion));
         }
 
-        mysqli_stmt_bind_param($stmt, 'ssssssssssss', 
+        mysqli_stmt_bind_param($stmt, 'ssssssssss', 
             $curp, $nombre, $apellidoPaterno, $apellidoMaterno, 
             $telefono, $correo, $boleta, $estatura, 
-            $usuario, $hashedPassword, $rutaCredencial, $rutaHorario
+            $usuario, $hashedPassword
         );
 
         if (!mysqli_stmt_execute($stmt)) {
@@ -111,17 +80,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $idEstudiante = mysqli_insert_id($conexion);
 
-        // Insertar en la tabla de solicitudes
-        $stmtSolicitud = mysqli_prepare($conexion, "INSERT INTO solicitudes (id_estudiante, tipo_solicitud, casillero_anterior) VALUES (?, ?, ?)");
-        
-        if (!$stmtSolicitud) {
-            throw new Exception('Error al preparar la consulta de solicitud: ' . mysqli_error($conexion));
-        }
+        // Verificar el tipo de solicitud
+        if ($tipoSolicitud === 'Registro') {
+            // Actualizar el número de casillero directamente
+            $stmtCasillero = mysqli_prepare($conexion, "UPDATE solicitudes SET numero_casillero = ? WHERE id_estudiante = ?");
+            if (!$stmtCasillero) {
+                throw new Exception('Error al preparar la consulta de actualización de casillero: ' . mysqli_error($conexion));
+            }
+            mysqli_stmt_bind_param($stmtCasillero, 'ii', $numeroCasillero, $idEstudiante);
+            if (!mysqli_stmt_execute($stmtCasillero)) {
+                throw new Exception('Error al actualizar el número de casillero: ' . mysqli_stmt_error($stmtCasillero));
+            }
+        } else {
+            // Insertar en la tabla de solicitudes
+            $stmtSolicitud = mysqli_prepare($conexion, "INSERT INTO solicitudes (id_estudiante, tipo_solicitud, casillero_anterior) VALUES (?, ?, ?)");
+            
+            if (!$stmtSolicitud) {
+                throw new Exception('Error al preparar la consulta de solicitud: ' . mysqli_error($conexion));
+            }
 
-        mysqli_stmt_bind_param($stmtSolicitud, 'isi', $idEstudiante, $tipoSolicitud, $lockerAnterior);
-        
-        if (!mysqli_stmt_execute($stmtSolicitud)) {
-            throw new Exception('Error al insertar la solicitud: ' . mysqli_stmt_error($stmtSolicitud));
+            mysqli_stmt_bind_param($stmtSolicitud, 'isi', $idEstudiante, $tipoSolicitud, $lockerAnterior);
+            
+            if (!mysqli_stmt_execute($stmtSolicitud)) {
+                throw new Exception('Error al insertar la solicitud: ' . mysqli_stmt_error($stmtSolicitud));
+            }
         }
 
         // Confirmar transacción
