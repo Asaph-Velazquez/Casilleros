@@ -41,7 +41,7 @@ if (isset($_SESSION['error'])) {
     <script src="../js/Solicitud_html/Validaciones_Modal.js" ></script> 
     <script src="../js/vistaAdmin/Formularios/eliminaRegistro.js" defer ></script>
     <script src="../js/vistaAdmin/Formularios/MostrarOcultarCamposFormularioAdmin.js" ></script>
-    
+    <script src="../js/Solicitud_html/Validaciones_Modal.js" ></script> 
     
     <script src="../js/Solicitud_html/limpiar_form.js" defer></script>
     
@@ -105,8 +105,7 @@ if (isset($_SESSION['error'])) {
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="celdaCasilleros" id="MostrarCasilleros"
                     value="MostrarCasilleros">
-                <label class="form-check-label" for="MostrarCasilleros
-                ">
+                <label class="form-check-label" for="MostrarCasilleros">
                     Mostrar Casilleros
                 </label>
             </div>
@@ -118,7 +117,7 @@ if (isset($_SESSION['error'])) {
                 </label>
             </div>
         </div>
-        <div style="width: 750px; ">
+        <div>
             <div class="contenedor-casilleros" id="celda-casilleros" style="display: none;"></div>
         </div>
 
@@ -316,7 +315,7 @@ if (isset($_SESSION['error'])) {
                     </div>
 
 
-                    <!--Modal2-->>
+                    <!--Modal2-->
                    
 
                 </form>
@@ -504,6 +503,7 @@ if (isset($_SESSION['error'])) {
             </div>
         </div>
     </footer>
+    
     
     <script src="../js/vistaAdmin/admon.js" ></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

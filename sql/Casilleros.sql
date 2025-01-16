@@ -30,7 +30,7 @@ CREATE TABLE solicitudes (
     tipo_solicitud ENUM('Registro', 'Renovación') NOT NULL,
     casillero_anterior INT,
     estatus ENUM('Pendiente', 'Asignado', 'Lista de espera') NOT NULL DEFAULT 'Pendiente',
-    numero_casillero INT,
+    numero_casillero INT CHECK (numero_casillero <= 100),
     fecha_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id_estudiante),
     FOREIGN KEY (numero_casillero) REFERENCES casilleros(numero_casillero)
