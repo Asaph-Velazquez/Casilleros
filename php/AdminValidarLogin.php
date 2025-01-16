@@ -29,7 +29,9 @@ if (mysqli_num_rows($resultado) > 0) {
     header('location: ../html/admon.php'); // Página del administrador
     exit();
 } else {
-    echo 'El administrador no existe o los datos son incorrectos.';
+    $_SESSION["msg_error"] = "Contraseña incorrecta";
+    header("Location: ../html/Acuse.html");
+    exit;
 }
 
 // Cerrar conexión

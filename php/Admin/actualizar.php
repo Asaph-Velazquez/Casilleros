@@ -42,7 +42,7 @@ if (mysqli_num_rows($resultado) > 0) {
     
     if ($resultado_casillero && mysqli_num_rows($resultado_casillero) > 0) {
         $fila_casillero = mysqli_fetch_assoc($resultado_casillero);
-        $numeroCasillero = $fila_casillero['numero_casillero'];
+        $numeroCasillero = $fila_casillero['numero_casillero']?? '';
     } else {
         $numeroCasillero = ''; // Si no tiene casillero asignado
     }
@@ -173,7 +173,7 @@ mysqli_close($conexion);
 
                 <div class="col-md-4">
                     <label for="casilleroActualizar" class="form-label">Casillero</label>
-                    <input type="text" name="casilleroActualizar" id="casilleroActualizar" class="form-control" value="<?= htmlspecialchars($numeroCasillero) ?>" required>
+                    <input type="text" name="casilleroActualizar" id="casilleroActualizar" class="form-control" value="<?= htmlspecialchars($numeroCasillero) ?>">
 
                 </div>
                 <div class="col-12">

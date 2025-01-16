@@ -1,3 +1,10 @@
+<?php
+// Iniciar la sesión
+session_start();
+
+// Recuperar los datos de la sesión
+$msgError = $_SESSION['msg_error'] ?? '';
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -14,6 +21,7 @@
 </head>
 
 <body>
+
     <section class="imagen">
         <div class="contenido-imagen">
             <a class="pag1" href="https://www.escom.ipn.mx/" target="_blank">
@@ -69,6 +77,7 @@
                     <input type="password" class="input" placeholder="Contraseña" id="contrasenia" name="ContraseniaLogin" required>
                 </div>
                 <button type="submit" class="btn btn-primary">¡Ingresar!</button>
+                <div id="mensaje-incompleto"><?php echo htmlspecialchars($msgError); ?></div>
                 <div id="mensaje-incompleto"></div>
             </form>
         </div>
