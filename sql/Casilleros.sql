@@ -49,6 +49,14 @@ VALUES
 ('2020030060', 'Saul Asaph', 'admin1', 'admin123', 'admin@ejemplo.com'),
 ('2023630227', 'Brandon Castillo', 'admin2', '241019', 'brandon@admon.com');
 
+
+INSERT INTO estudiantes(curp, nombre, primer_apellido, segundo_apellido, estatura, telefono, correo, boleta, usuario, contraseña, credencial, horario)
+VALUES
+('AAMJ030312MMCMRCA3', 'Jocelyn Lucia', 'Amador', 'Martínez', '1.65', '5549037335', 'jamador1800@alumno.ipn.mx', '2023630284','luci03', '12345678', 'credencial_67889d52f19144.43948510.pdf', 'credencial_67889d52f19144.43948510.pdf');
+
+INSERT INTO solicitudes(id_estudiante, tipo_solicitud, casillero_anterior, estatus,numero_casillero, fecha_registro)
+VALUES
+('1', 'Registro', '', 'Asignado', '1', '');
 -- Insertar 100 casilleros en la tabla casilleros
 INSERT INTO casilleros (numero_casillero, estatus, altura) VALUES
 (1, 'Disponible', NULL),

@@ -8,6 +8,7 @@ if (!isset($_SESSION['nombreUsuario'])) {
     header('location: ../html/PagPrincipal.html');
     exit();
 }
+
 // Incluir el archivo actualizar.php para procesar datos
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     include('../php/Admin/verDatos.php');
@@ -20,6 +21,7 @@ if (isset($_SESSION['error'])) {
     echo "<script>alert('" . $_SESSION['error'] . "');</script>";
     unset($_SESSION['error']);
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -135,7 +137,9 @@ if (isset($_SESSION['error'])) {
                 <input type="radio" name="radio" id="Actualizar">
                 <span class="texto">Buscar Registro </span>
             </label>
+
         </div>
+        
 
         <!--FORMULARIO-->
         <div id="formularioIngreso" style="display: none;">
