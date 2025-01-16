@@ -21,7 +21,6 @@ for (let i = 100; i >= 1; i--) {
     const eliminarRegistro = document.getElementById('Eliminar');
     const actualizarRegistro = document.getElementById('Actualizar');
     const formularioAgregar = document.getElementById('formularioIngreso');
-    const formularioEliminar = document.getElementById('formularioEliminar');
     const formularioActualizar = document.getElementById('formularioUpdate');
   
     // Mostrar casilleros cuando se selecciona "Mostrar Casilleros"
@@ -42,7 +41,6 @@ for (let i = 100; i >= 1; i--) {
     agregarRegistro.addEventListener('change', function () {
       if (agregarRegistro.checked) {
         formularioAgregar.style.display = 'block'; 
-        formularioEliminar.style.display = 'none';
         formularioActualizar.style.display = 'none';
       }
     });
@@ -51,7 +49,6 @@ for (let i = 100; i >= 1; i--) {
     eliminarRegistro.addEventListener('change', function () {
       if (eliminarRegistro.checked) {
         formularioAgregar.style.display = 'none'; 
-        formularioEliminar.style.display = 'block';
         formularioActualizar.style.display = 'none';  
       }
   });
@@ -63,7 +60,6 @@ for (let i = 100; i >= 1; i--) {
     if (actualizarRegistro.checked) {
       formularioActualizar.style.display = 'block';
       formularioAgregar.style.display = 'none'; 
-      formularioEliminar.style.display = 'none';
     
     }
   });
