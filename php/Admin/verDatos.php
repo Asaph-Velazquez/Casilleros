@@ -10,11 +10,15 @@ if (!$conexion) {
 $Boleta = $_POST['boletaBuscar'] ?? '';
 
 // Inicializar variables para mostrar datos en la tabla
-$Nombre_Estudiante = $Primer_Apellido = $Segundo_Apellido = $Estatura = $Telefono = $Correo = $Usuario = $Curp = $tipoSolicitud = $fechaSolicitud = '';
+$Nombre_Estudiante = $Primer_Apellido = $Segundo_Apellido = $Estatura = $Telefono = $Correo = $Usuario = $Curp = $tipoSolicitud = $fechaSolicitud = $numeroCasillero = '';
 $registroEncontrado = false;
 
 // Consulta para verificar si la boleta existe
-$consulta = "SELECT * FROM estudiantes WHERE boleta = '$Boleta'";
+$consulta = "SELECT e.*, s.tipo_solicitud, s.fecha_registro, c.numero_casillero 
+             FROM estudiantes e 
+             LEFT JOIN solicitudes s ON e.id_estudiante = s.id_estudiante 
+             LEFT JOIN casilleros c ON s.numero_casillero = c.numero_casillero
+             WHERE e.boleta = '$Boleta'";
 $resultado = mysqli_query($conexion, $consulta);
 
 // Verificar si la consulta tuvo éxito
@@ -24,41 +28,29 @@ if (!$resultado) {
 
 // Verificar si la boleta está registrada
 if (mysqli_num_rows($resultado) > 0) {
-    // Obtener los datos del estudiante
+    // Obtener los datos del estudiante y la solicitud
     $fila = mysqli_fetch_assoc($resultado);
 
-    // Obtener los datos relacionados de la solicitud
-    $idEstudiante = $fila['id_estudiante'];
-    $consulta_Solicitud = "SELECT * FROM solicitudes WHERE id_estudiante = '$idEstudiante'";
-    $resultado_Solicitud = mysqli_query($conexion, $consulta_Solicitud);
-
-    // Verificar si la consulta de solicitudes tuvo éxito
-    if (!$resultado_Solicitud) {
-        die('Error en la consulta de solicitudes: ' . mysqli_error($conexion));
-    }
-
-    // Si hay solicitudes registradas, obtener los datos
-    if (mysqli_num_rows($resultado_Solicitud) > 0) {
-        $fila_Solicitud = mysqli_fetch_assoc($resultado_Solicitud);
-
-        // Asignar los datos a variables
-        $Nombre_Estudiante = $fila['nombre'];
-        $Primer_Apellido = $fila['primer_apellido'];
-        $Segundo_Apellido = $fila['segundo_apellido'];
-        $Estatura = $fila['estatura'];
-        $Telefono = $fila['telefono'];
-        $Correo = $fila['correo'];
-        $Usuario = $fila['usuario'];
-        $Curp = $fila['curp'];
-        $tipoSolicitud = $fila_Solicitud['tipo_solicitud'];
-        $fechaSolicitud = $fila_Solicitud['fecha_registro'] ?? 'No disponible';
-        $numeroCasillero = $fila_Solicitud['numero_casillero'] ?? 'No disponible';
-        $registroEncontrado = true;
-    }
+    // Asignar los datos a variables
+    $Nombre_Estudiante = $fila['nombre'];
+    $Primer_Apellido = $fila['primer_apellido'];
+    $Segundo_Apellido = $fila['segundo_apellido'];
+    $Estatura = $fila['estatura'];
+    $Telefono = $fila['telefono'];
+    $Correo = $fila['correo'];
+    $Usuario = $fila['usuario'];
+    $Curp = $fila['curp'];
+    $tipoSolicitud = $fila['tipo_solicitud'];
+    $fechaSolicitud = $fila['fecha_registro'] ?? 'No disponible';
+    $numeroCasillero = $fila['numero_casillero'] ?? 'No disponible';
+    $registroEncontrado = true;
 }
 
 // Consulta para obtener todos los registros
-$consultaTodos = "SELECT * FROM estudiantes";
+$consultaTodos = "SELECT e.*, s.tipo_solicitud, s.fecha_registro, c.numero_casillero 
+                  FROM estudiantes e 
+                  LEFT JOIN solicitudes s ON e.id_estudiante = s.id_estudiante 
+                  LEFT JOIN casilleros c ON s.numero_casillero = c.numero_casillero";
 $resultadoTodos = mysqli_query($conexion, $consultaTodos);
 
 // Verificar si la consulta tuvo éxito
