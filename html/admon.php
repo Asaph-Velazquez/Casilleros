@@ -165,12 +165,6 @@ if (isset($_SESSION['error'])) {
                             placeholder="Ingrese el número de su Casillero Anterior" name="CasilleroAnterior">
                     </div>
 
-                    <div id="asignarLocker" class="mb-3" style="display: none;">
-                        <label for="asignarCasillero" class="form-check-label">Número de Casillero</label>
-                        <input type="number" class="form-control" id="asignarCasillero"
-                            placeholder="Ingrese el número del casillero a Asignar" name="asignarCasillero">
-                    </div>
-
                     <div id="EleccionCURP" class="mb-3" style="display: none;">
                         <label for="CURP" class="form-check-label">CURP</label>
                         <input type="text" class="form-control" id="CURP" placeholder="Ingrese su CURP" name="CURP">
