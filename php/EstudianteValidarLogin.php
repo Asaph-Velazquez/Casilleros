@@ -14,7 +14,7 @@
     $contrasena = $_POST['ContraseniaLogin'] ?? '';
 
     // Consulta para obtener la contraseña encriptada del usuario
-    $consulta = "SELECT * FROM estudiantes WHERE usuario = '$usuario'";
+    $consulta = "SELECT * FROM estudiantes WHERE usuario = '$usuario' AND boleta = '$boleta'";
     $resultado = mysqli_query($conexion, $consulta);
 
     $_SESSION["nombreUsuario"] = $usuario;
@@ -114,8 +114,8 @@
                 $_SESSION["msj"] = "Sin casilleros disponibles. En lista de espera";
                 exit;
             }
-            else{ //Agregar estado de solicitud rechazada (Solo mensaje)
-                $_SESSION["msj"] = "Sin casilleros disponibles. En lista de espera";
+            else{ //Estado de solicitud rechazada (Solo mensaje)
+                $_SESSION["msj"] = "Su solicitud de casillero ha sido rechazada";
                 header("Location: ../html/mensaje.php");
                 exit;
             }
@@ -123,10 +123,14 @@
             //exit();
         } else {
             // Contraseña incorrecta
-            echo 'Contraseña incorrecta.';
+            $_SESSION["msg_error"] = "Contraseña incorrecta";
+            header("Location: ../html/Acuse.html");
+            exit;
         }
     } else {
-        echo 'El usuario no existe.';
+        $_SESSION["msg_error"] = "Usuario no existente";
+        header("Location: ../html/Acuse.html");
+        exit;
     }
     
     // Cerrar conexión
