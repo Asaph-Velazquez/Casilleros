@@ -20,12 +20,7 @@ if (isset($_SESSION['error'])) {
     echo "<script>alert('" . $_SESSION['error'] . "');</script>";
     unset($_SESSION['error']);
 }
-
-
-
 ?>
-
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -43,7 +38,6 @@ if (isset($_SESSION['error'])) {
     <link rel="icon" type="image/png" href="../imgs/logoEquipo.png">
     <link rel="stylesheet" href="../css/admon.css">
  
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="../js/Solicitud_html/Validaciones_Modal.js" ></script> 
     <script src="../js/vistaAdmin/Formularios/eliminaRegistro.js" defer ></script>
     <script src="../js/vistaAdmin/Formularios/MostrarOcultarCamposFormularioAdmin.js" ></script>
@@ -58,6 +52,7 @@ if (isset($_SESSION['error'])) {
         #Botonesformulario{
             display: flex;
             justify-content: center;
+            margin-left: 2%
         }
         
     </style>
@@ -511,9 +506,7 @@ if (isset($_SESSION['error'])) {
     </footer>
     
     <script src="../js/vistaAdmin/admon.js" ></script>
-    
- 
-   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>
