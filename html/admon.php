@@ -8,7 +8,6 @@ if (!isset($_SESSION['nombreUsuario'])) {
     header('location: ../html/PagPrincipal.html');
     exit();
 }
-
 // Incluir el archivo actualizar.php para procesar datos
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     include('../php/Admin/verDatos.php');
@@ -21,6 +20,7 @@ if (isset($_SESSION['error'])) {
     echo "<script>alert('" . $_SESSION['error'] . "');</script>";
     unset($_SESSION['error']);
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -42,6 +42,7 @@ if (isset($_SESSION['error'])) {
     
  
     <script src="../js/Solicitud_html/Validaciones_Modal.js" ></script> 
+    <script src="../js/vistaAdmin/Formularios/eliminaRegistro.js" defer ></script>
     <script src="../js/vistaAdmin/Formularios/MostrarOcultarCamposFormularioAdmin.js" ></script>
     <script src="../js/Solicitud_html/Validaciones_Modal.js" ></script> 
     
@@ -136,9 +137,7 @@ if (isset($_SESSION['error'])) {
                 <input type="radio" name="radio" id="Actualizar">
                 <span class="texto">Buscar Registro </span>
             </label>
-
         </div>
-        
 
         <!--FORMULARIO-->
         <div id="formularioIngreso" style="display: none;">
@@ -167,6 +166,12 @@ if (isset($_SESSION['error'])) {
                         <label for="CasilleroAnterior" class="form-check-label">Número de Casillero Anterior</label>
                         <input type="number" class="form-control" id="CasilleroAnterior"
                             placeholder="Ingrese el número de su Casillero Anterior" name="CasilleroAnterior">
+                    </div>
+
+                    <div id="asignarLocker" class="mb-3" style="display: none;">
+                        <label for="asignarCasillero" class="form-check-label">Número de Casillero</label>
+                        <input type="number" class="form-control" id="asignarCasillero"
+                            placeholder="Ingrese el número del casillero a Asignar" name="asignarCasillero">
                     </div>
 
                     <div id="EleccionCURP" class="mb-3" style="display: none;">
@@ -284,7 +289,8 @@ if (isset($_SESSION['error'])) {
 
                     <div class="row mt-4">
                         <div class="col d-flex justify-content-between">
-                            <button type="button" class="btn btn-primary" id="Registrar" style="display: none;" >Registrar Solicitud</button>
+                            <button type="button" class="btn btn-primary" id="Registrar" style="display: none;"
+                                onclick="subida();">Registrar Solicitud</button>
                             <button type="reset" class="btn btn-warning" id="Limpiar" style="display: none;"
                                 onclick="LimpiarFormulario();">Limpiar</button>
                         </div>
@@ -405,7 +411,7 @@ if (isset($_SESSION['error'])) {
 
             <!-- Mostrar resultados en tabla -->
             <?php if (isset($registroEncontrado) && $registroEncontrado): ?>
-            <div class="table-responsive">
+                <div class="table-responsive" >
                 <table class="table">
                     <thead>
                         <tr>
@@ -418,10 +424,11 @@ if (isset($_SESSION['error'])) {
                             <th scope="col">Correo</th>
                             <th scope="col">Usuario</th>
                             <th scope="col">CURP</th>
-                            <th scope="col">Casillero</th>
+                            <th scope="col"> Casillero </th>
                             <th scope="col">Tipo de Solicitud</th>
                             <th scope="col">Fecha de Solicitud</th>
                             <th scope="col"></th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -439,58 +446,19 @@ if (isset($_SESSION['error'])) {
                             <td><?= htmlspecialchars($tipoSolicitud) ?></td>
                             <td><?= htmlspecialchars($fechaSolicitud) ?></td>
                             <td>
-                                <a href="../php/Admin/actualizar.php?boleta=<?= urlencode($Boleta) ?>" class="btn btn-outline-primary">Editar</a>
-                                <a href="../php/Admin/borrarRegistros.php?boleta=<?= urlencode($Boleta) ?>" class="btn btn-outline-primary">Eliminar</a>
+                            <a href="../php/Admin/actualizar.php?boleta=<?= urlencode($Boleta) ?>" class="btn btn-outline-primary">Editar</a>
+                            <a href="../php/Admin/borrarRegistros.php?boleta=<?= urlencode($Boleta) ?>" class="btn btn-outline-primary">Eliminar</a>
                             </td>
+
+
                         </tr>
+
                     </tbody>
                 </table>
-            </div>
-        <?php endif; ?>
-
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Boleta</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Primer Apellido</th>
-                        <th scope="col">Segundo Apellido</th>
-                        <th scope="col">Estatura</th>
-                        <th scope="col">Teléfono</th>
-                        <th scope="col">Correo</th>
-                        <th scope="col">Usuario</th>
-                        <th scope="col">CURP</th>
-                        <th scope="col">Casillero</th>
-                        <th scope="col">Tipo de Solicitud</th>
-                        <th scope="col">Fecha de Solicitud</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($row = mysqli_fetch_assoc($resultadoTodos)): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($row['boleta']) ?></td>
-                            <td><?= htmlspecialchars($row['nombre']) ?></td>
-                            <td><?= htmlspecialchars($row['primer_apellido']) ?></td>
-                            <td><?= htmlspecialchars($row['segundo_apellido']) ?></td>
-                            <td><?= htmlspecialchars($row['estatura']) ?></td>
-                            <td><?= htmlspecialchars($row['telefono']) ?></td>
-                            <td><?= htmlspecialchars($row['correo']) ?></td>
-                            <td><?= htmlspecialchars($row['usuario']) ?></td>
-                            <td><?= htmlspecialchars($row['curp']) ?></td>
-                            <td><?= htmlspecialchars($row['numero_casillero'] ?? 'No disponible') ?></td>
-                            <td><?= htmlspecialchars($row['tipo_solicitud']) ?></td>
-                            <td><?= htmlspecialchars($row['fecha_registro']) ?></td>
-                            <td>
-                                <a href="../php/Admin/actualizar.php?boleta=<?= urlencode($row['boleta']) ?>" class="btn btn-outline-primary">Editar</a>
-                                <a href="../php/Admin/borrarRegistros.php?boleta=<?= urlencode($row['boleta']) ?>" class="btn btn-outline-primary">Eliminar</a>
-                            </td>
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-        </div>
+                </div>
+            <?php elseif ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
+                <p>No se encontraron registros con la boleta proporcionada.</p>
+            <?php endif; ?>
         </div> <!--Fin de formulario para actualizar registros-->
 
 
@@ -549,7 +517,3 @@ if (isset($_SESSION['error'])) {
 </body>
 
 </html>
-<?php
-// Cerrar la conexión a la base de datos
-mysqli_close($conexion);
-?>
