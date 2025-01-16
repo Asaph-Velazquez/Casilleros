@@ -49,7 +49,7 @@ if(mysqli_num_rows($resultado) > 0){
     $casillero = $datos['numero_casillero'];
 
     if(is_null($casillero)){
-        $casillero = "En espera de asignación";
+        $casillero = "Sin asignar";
     }
 
     $nombreCompleto = "$nombre $apellidoP $apellidoM";
