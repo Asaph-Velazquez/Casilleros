@@ -41,7 +41,6 @@ if (isset($_SESSION['error'])) {
     
  
     <script src="../js/Solicitud_html/Validaciones_Modal.js" ></script> 
-    <script src="../js/vistaAdmin/Formularios/eliminaRegistro.js" defer ></script>
     <script src="../js/vistaAdmin/Formularios/MostrarOcultarCamposFormularioAdmin.js" ></script>
     <script src="../js/Solicitud_html/Validaciones_Modal.js" ></script> 
     
@@ -282,8 +281,7 @@ if (isset($_SESSION['error'])) {
 
                     <div class="row mt-4">
                         <div class="col d-flex justify-content-between">
-                            <button type="button" class="btn btn-primary" id="Registrar" style="display: none;"
-                                onclick="subida();">Registrar Solicitud</button>
+                            <button type="button" class="btn btn-primary" id="Registrar" style="display: none;" >Registrar Solicitud</button>
                             <button type="reset" class="btn btn-warning" id="Limpiar" style="display: none;"
                                 onclick="LimpiarFormulario();">Limpiar</button>
                         </div>
