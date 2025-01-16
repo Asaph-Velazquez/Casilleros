@@ -43,14 +43,25 @@ if (isset($_SESSION['error'])) {
     <link rel="icon" type="image/png" href="../imgs/logoEquipo.png">
     <link rel="stylesheet" href="../css/admon.css">
  
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="../js/Solicitud_html/Validaciones_Modal.js" ></script> 
     <script src="../js/vistaAdmin/Formularios/eliminaRegistro.js" defer ></script>
     <script src="../js/vistaAdmin/Formularios/MostrarOcultarCamposFormularioAdmin.js" ></script>
     
     
     <script src="../js/Solicitud_html/limpiar_form.js" defer></script>
-   
+    
+    <style>
+        main{
+            margin: 20px 40px;
+        }
+        #Botonesformulario{
+            display: flex;
+            justify-content: center;
+            margin-left: 40%;
+        }
+        
+    </style>
 
 </head>
 
@@ -118,14 +129,13 @@ if (isset($_SESSION['error'])) {
         </div>
 
 
-        <div class="entradas-radio">
+        <div class="entradas-radio" id="Botonesformulario">
             <label class="radio">
                 <input type="radio" name="radio" checked="" id="Agregar">
                 <span class="texto">Agregar</span>
             </label>
             <label class="radio">
-                <input type="radio" name="radio" id="Eliminar">
-                <span class="texto">Eliminar</span>
+                <input type="hidden" name="radio" id="Eliminar">
             </label>
             <label class="radio">
                 <input type="radio" name="radio" id="Actualizar">
@@ -440,7 +450,7 @@ if (isset($_SESSION['error'])) {
                             <td><?= htmlspecialchars($fechaSolicitud) ?></td>
                             <td>
                             <a href="../php/Admin/actualizar.php?boleta=<?= urlencode($Boleta) ?>" class="btn btn-outline-primary">Editar</a>
-
+                            <a href="../php/Admin/borrarRegistros.php?boleta=<?= urlencode($Boleta) ?>" class="btn btn-outline-primary">Eliminar</a>
                             </td>
 
 

@@ -4,17 +4,20 @@ session_start();
 if (!isset($_GET['boleta']) || empty($_GET['boleta'])) {
     die("No se proporcionó una boleta.");
 }
-$Boleta = $_GET['boleta'];
+$Boleta = trim($_GET['boleta']); // Limpiamos posibles espacios en blanco
 $conexion = mysqli_connect("localhost", "root", "", "casilleros");
 if (!$conexion) {
     die("Error al conectar con la base de datos: " . mysqli_connect_error());
 }
-//obtenemos los datos que se pueden actualizar
+
+// Primero obtener el id_estudiante
 $consulta = "SELECT * FROM estudiantes WHERE boleta = '$Boleta'";
 $resultado = mysqli_query($conexion, $consulta);
+
 if (!$resultado) {
     die("Error en la consulta: " . mysqli_error($conexion));
 }
+
 if (mysqli_num_rows($resultado) > 0) {
     $fila = mysqli_fetch_assoc($resultado);
     $Nombre_Estudiante = $fila['nombre'];
@@ -25,16 +28,34 @@ if (mysqli_num_rows($resultado) > 0) {
     $Correo = $fila['correo'];
     $Usuario = $fila['usuario'];
     $Curp = $fila['curp'];
-    $numeroCasillero = $fila['numero_casillero'];
+    
+    // Ahora obtener el número de casillero desde la tabla solicitudes
+    $id_estudiante = $fila['id_estudiante'];
+    $consulta_casillero = "SELECT numero_casillero 
+                          FROM solicitudes 
+                          WHERE id_estudiante = '$id_estudiante' 
+                          AND estatus = 'Asignado' 
+                          ORDER BY fecha_registro DESC 
+                          LIMIT 1";
+    
+    $resultado_casillero = mysqli_query($conexion, $consulta_casillero);
+    
+    if ($resultado_casillero && mysqli_num_rows($resultado_casillero) > 0) {
+        $fila_casillero = mysqli_fetch_assoc($resultado_casillero);
+        $numeroCasillero = $fila_casillero['numero_casillero'];
+    } else {
+        $numeroCasillero = ''; // Si no tiene casillero asignado
+    }
 }
+
 // Verificar si hay un mensaje en la sesión y mostrar un alert
 if (isset($_SESSION['message'])) {
     echo "<script>alert('" . $_SESSION['message'] . "');</script>";
     // Limpiar el mensaje de la sesión para evitar que se muestre en futuras cargas de página
     unset($_SESSION['message']);
 }
-mysqli_close($conexion);
 
+mysqli_close($conexion);
 ?>
 <!DOCTYPE html>
 <html lang="es">
