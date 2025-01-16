@@ -197,10 +197,6 @@ function datosSubidos(event) {
                 alert(result.message);
             }
         })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Hubo un problema al subir los datos');
-        });
     }
 }
 

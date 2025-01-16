@@ -8,6 +8,7 @@ if (!isset($_SESSION['nombreUsuario'])) {
     header('location: ../html/PagPrincipal.html');
     exit();
 }
+
 // Incluir el archivo actualizar.php para procesar datos
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     include('../php/Admin/verDatos.php');
@@ -20,13 +21,6 @@ if (isset($_SESSION['error'])) {
     echo "<script>alert('" . $_SESSION['error'] . "');</script>";
     unset($_SESSION['error']);
 }
-// Conectar a la base de datos
-$conexion = mysqli_connect('localhost', 'root', '', 'casilleros');
-if (!$conexion) {
-    die("Error de conexión: " . mysqli_connect_error());
-}
-
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -48,7 +42,6 @@ if (!$conexion) {
     
  
     <script src="../js/Solicitud_html/Validaciones_Modal.js" ></script> 
-    <script src="../js/vistaAdmin/Formularios/eliminaRegistro.js" defer ></script>
     <script src="../js/vistaAdmin/Formularios/MostrarOcultarCamposFormularioAdmin.js" ></script>
     <script src="../js/Solicitud_html/Validaciones_Modal.js" ></script> 
     
@@ -143,7 +136,9 @@ if (!$conexion) {
                 <input type="radio" name="radio" id="Actualizar">
                 <span class="texto">Buscar Registro </span>
             </label>
+
         </div>
+        
 
         <!--FORMULARIO-->
         <div id="formularioIngreso" style="display: none;">
@@ -172,12 +167,6 @@ if (!$conexion) {
                         <label for="CasilleroAnterior" class="form-check-label">Número de Casillero Anterior</label>
                         <input type="number" class="form-control" id="CasilleroAnterior"
                             placeholder="Ingrese el número de su Casillero Anterior" name="CasilleroAnterior">
-                    </div>
-
-                    <div id="asignarLocker" class="mb-3" style="display: none;">
-                        <label for="asignarCasillero" class="form-check-label">Número de Casillero</label>
-                        <input type="number" class="form-control" id="asignarCasillero"
-                            placeholder="Ingrese el número del casillero a Asignar" name="asignarCasillero">
                     </div>
 
                     <div id="EleccionCURP" class="mb-3" style="display: none;">
@@ -295,8 +284,7 @@ if (!$conexion) {
 
                     <div class="row mt-4">
                         <div class="col d-flex justify-content-between">
-                            <button type="button" class="btn btn-primary" id="Registrar" style="display: none;"
-                                onclick="subida();">Registrar Solicitud</button>
+                            <button type="button" class="btn btn-primary" id="Registrar" style="display: none;" >Registrar Solicitud</button>
                             <button type="reset" class="btn btn-warning" id="Limpiar" style="display: none;"
                                 onclick="LimpiarFormulario();">Limpiar</button>
                         </div>

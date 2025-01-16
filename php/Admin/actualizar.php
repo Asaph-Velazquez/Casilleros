@@ -179,8 +179,10 @@ mysqli_close($conexion);
                 <div class="col-12">
                     <button type="button" class="btn btn-primary" id="actualizarDatos" data-bs-toggle="modal" data-bs-target="#exampleModal"
                         onclick="enviarActualizacion(event)">
-                        Actualizar Datos
+                      Actualizar Datos
                     </button>
+                </div>
+
                 </div>
             </form>
         </div>

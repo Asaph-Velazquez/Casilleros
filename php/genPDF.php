@@ -55,6 +55,7 @@ if(mysqli_num_rows($resultado) > 0){
     $nombreCompleto = "$nombre $apellidoP $apellidoM";
     $PDF->Cell(40,20,'Nombre Completo: ' .  $nombreCompleto,0,1,'L');
     $PDF->Cell(40,20,'Periodo: SEMESTRE 2024-2025/2',0,1,'L');
+    $PDF->SetTextColor(255, 0, 0);
     $PDF->Cell(40,20,'Casillero Asignado: ' . $casillero,0,1,'L');
 
     if($descargar == 'S'){

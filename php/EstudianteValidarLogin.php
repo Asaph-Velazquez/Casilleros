@@ -12,6 +12,7 @@
     // Recuperar valores del formulario
     $usuario = $_POST['UsuarioLogin'] ?? '';
     $contrasena = $_POST['ContraseniaLogin'] ?? '';
+    $boleta = $_POST['boleta'] ?? '';
 
     // Consulta para obtener la contraseña encriptada del usuario
     $consulta = "SELECT * FROM estudiantes WHERE usuario = '$usuario' AND boleta = '$boleta'";
@@ -114,7 +115,7 @@
                 $_SESSION["msj"] = "Sin casilleros disponibles. En lista de espera";
                 exit;
             }
-            else{ //Estado de solicitud rechazada (Solo mensaje)
+            else{ //Agregar estado de solicitud rechazada (Solo mensaje)
                 $_SESSION["msj"] = "Su solicitud de casillero ha sido rechazada";
                 header("Location: ../html/mensaje.php");
                 exit;
