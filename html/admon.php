@@ -38,10 +38,12 @@ if (isset($_SESSION['error'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
         crossorigin="anonymous"></script>
+        <link rel="preload" href="">
     <link rel="stylesheet" href="../css/Navbar_y_slider.css">
     <link rel="stylesheet" href="../css/app.css">
     <link rel="icon" type="image/png" href="../imgs/logoEquipo.png">
     <link rel="stylesheet" href="../css/admon.css">
+    
  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/Solicitud_html/Validaciones_Modal.js" ></script> 
@@ -112,7 +114,7 @@ if (isset($_SESSION['error'])) {
                 </label>
             </div>
         </div>
-        <div>
+        <div class="contenedorPrincipal-Casilleros" >
             <div class="contenedor-casilleros" id="celda-casilleros" style="display: none;"></div>
         </div>
 
@@ -403,6 +405,7 @@ if (isset($_SESSION['error'])) {
 
             <!-- Mostrar resultados en tabla -->
             <?php if (isset($registroEncontrado) && $registroEncontrado): ?>
+                <div class="contenedorTabla" style="background-color: turquoise;">
                 <table class="table">
                     <thead>
                         <tr>
@@ -446,6 +449,7 @@ if (isset($_SESSION['error'])) {
 
                     </tbody>
                 </table>
+                </div>
             <?php elseif ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
                 <p>No se encontraron registros con la boleta proporcionada.</p>
             <?php endif; ?>

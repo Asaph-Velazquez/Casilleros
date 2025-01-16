@@ -37,3 +37,52 @@
     background-color: #fff;
     font-weight: 600;
   }
+  /*CSS para los casilleros*/
+  #celda-casilleros button{
+   background-color: #000080;
+   border-radius: 10px;
+   width: 80px;
+   color: white;
+   margin: 1px;
+   padding: 2px 3px;
+
+   
+  }
+  /* Para pantallas mayores a 1001px */
+@media (min-width: 1001px) {
+  .contenedorPrincipal-Casilleros {
+    width: 800px; /* Ajuste para pantallas pequeñas */
+    margin: 0 50px;
+  }
+
+
+  .contenedor-casilleros {
+    display: grid;
+    grid-template-columns: repeat(25, 0.5fr);
+    grid-template-rows: repeat(4, 0.5fr);
+    
+  }
+  #celda-casilleros button{
+   width: 50px;
+    font-size: 10px;
+   
+  }
+}
+
+/* Para pantallas menores a 1001px */
+@media (max-width: 1000px) {
+  .contenedorPrincipal-Casilleros {
+    width: 400px; /* Ajuste para pantallas pequeñas */
+  }
+
+  .contenedor-casilleros {
+    display: grid;
+    grid-template-columns: repeat(4, 0.5fr);
+    grid-template-rows: repeat(10, 0.5fr);
+  }
+  #celda-casilleros button{
+  width: 100px;
+  font-size: 10px;
+   
+  }
+}
