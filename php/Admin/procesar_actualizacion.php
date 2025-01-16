@@ -1,5 +1,8 @@
 <?php
 session_start();
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 $conexion = mysqli_connect('localhost', 'root', '', 'casilleros');
 
 // Verificar conexión
@@ -58,6 +61,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     WHERE boleta = ?";
         
         $stmt = mysqli_prepare($conexion, $consulta);
+        if ($stmt === false) {
+            throw new Exception('Error al preparar la consulta de actualización: ' . mysqli_error($conexion));
+        }
+        
         mysqli_stmt_bind_param($stmt, 'sssssssss', 
             $Nombre_Estudiante, 
             $Primer_Apellido, 
@@ -76,6 +83,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // 2. Actualizar el casillero si se proporcionó uno nuevo
         if (!empty($AsignarCasillero)) {
+            // Verificar que el número de casillero sea válido
+            if ($AsignarCasillero <= 0 || $AsignarCasillero > 100) {
+                throw new Exception("Error: El número de casillero no es válido (debe ser entre 1 y 100).");
+            }
+
             // Obtener el ID del estudiante actual
             $consultaId = "SELECT id_estudiante FROM estudiantes WHERE boleta = ?";
             $stmtId = mysqli_prepare($conexion, $consultaId);
@@ -133,9 +145,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     mysqli_stmt_bind_param($stmtUpdateSolicitud, 'ii', $AsignarCasillero, $solicitudActual['id_solicitud']);
                     
                     if (!mysqli_stmt_execute($stmtUpdateSolicitud)) {
-                        throw new Exception('Error al actualizar la asignación del casillero');
+                        throw new Exception('Error al actualizar la asignación del casillero: ' . mysqli_error($conexion));
                     }
-
+                    
                     // Actualizar el estado del nuevo casillero
                     $consultaUpdateCasillero = "UPDATE casilleros 
                                               SET estatus = 'No disponible' 

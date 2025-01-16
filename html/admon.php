@@ -446,7 +446,8 @@ if (isset($_SESSION['error'])) {
                             <td><?= htmlspecialchars($fechaSolicitud) ?></td>
                             <td>
                             <a href="../php/Admin/actualizar.php?boleta=<?= urlencode($Boleta) ?>" class="btn btn-outline-primary">Editar</a>
-                            <a href="../php/Admin/borrarRegistros.php?boleta=<?= urlencode($Boleta) ?>" class="btn btn-outline-primary">Eliminar</a>
+                            <br><br>
+                            <a href="../php/Admin/borrarRegistros.php?boleta=<?= urlencode($Boleta) ?>" class="btn btn-outline-danger">Eliminar</a>
                             </td>
 
 
