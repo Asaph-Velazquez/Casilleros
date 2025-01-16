@@ -32,6 +32,7 @@ CREATE TABLE solicitudes (
     estatus ENUM('Pendiente', 'Asignado', 'Lista de espera') NOT NULL DEFAULT 'Pendiente',
     numero_casillero INT,
     fecha_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    comprobante VARCHAR(255),
     FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id_estudiante),
     FOREIGN KEY (numero_casillero) REFERENCES casilleros(numero_casillero)
 );
