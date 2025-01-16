@@ -7,10 +7,7 @@ for (let i = 100; i >= 1; i--) {
     // Creamos un botón
     const button = document.createElement("button");
     button.textContent = `Casillero ${i}`;
-     
-    
-     
-    
+    button.id = `casillero-${i}`;
     buttonContainer.appendChild(button);
 }
     const mostrarCasilleros = document.getElementById('MostrarCasilleros');
