@@ -15,14 +15,6 @@ CREATE TABLE estudiantes (
     horario VARCHAR(255) -- Ruta al archivo de horario
 );
 
--- Tabla casilleros
-CREATE TABLE casilleros (
-    id_Casillero INT AUTO_INCREMENT PRIMARY KEY,
-    numero_casillero INT NOT NULL UNIQUE,
-    estatus ENUM('Disponible', 'No disponible') NOT NULL DEFAULT 'Disponible',
-    altura DECIMAL(3,2) DEFAULT NULL -- Permite que la altura sea NULL
-);
-
 -- Tabla solicitudes
 CREATE TABLE solicitudes (
     id_solicitud INT AUTO_INCREMENT PRIMARY KEY,

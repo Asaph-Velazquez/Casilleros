@@ -74,14 +74,11 @@ mysqli_close($conexion);
     <link rel="stylesheet" href="../../css/app.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
-        <script src="../../js/vistaAdmin/Formularios/actualizarDatos.js"></script>
-
-
+    <script src="../../js/vistaAdmin/Formularios/actualizarDatos.js"></script>
 
 </head>
 
 <body>
-
 
     <header class="imagen">
         <div class="contenido-imagen">
@@ -212,11 +209,6 @@ mysqli_close($conexion);
                     </div>
                 </div>
             </div>
-
-
-
-
-
 
     <footer class="container-fluid mt-4">
         <div class="row p-5 pb-2 bg-dark text-white">
