@@ -1,72 +1,84 @@
 <?php
 session_start();
-$conexion = mysqli_connect('localhost', 'root', '', 'casilleros');
+// Verificar que se reciba la boleta
+if (!isset($_GET['boleta']) || empty($_GET['boleta'])) {
+    die("No se proporcionó una boleta.");
+}
+$boleta = trim($_GET['boleta']); // Limpiamos posibles espacios en blanco
 
-if (!$conexion) {
-    $_SESSION['error'] = 'Error de conexión a la base de datos: ' . mysqli_connect_error();
-    header('Location: /ruta/a/tu/formulario.php');
-    exit;
+// Conexión a la base de datos
+$host = "localhost";
+$user = "root";
+$password = "";
+$database = "casilleros";
+
+$conn = new mysqli($host, $user, $password, $database);
+
+// Verificar conexión
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Obtener el ID del estudiante a partir de la boleta
+$sqlGetId = "SELECT id_estudiante FROM estudiantes WHERE boleta = ?";
+$stmtGetId = $conn->prepare($sqlGetId);
+if (!$stmtGetId) {
+    die("Error en la preparación de la consulta SQL: " . $conn->error);
+}
+$stmtGetId->bind_param("s", $boleta);
+$stmtGetId->execute();
+$result = $stmtGetId->get_result();
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $idEstudiante = $row['id_estudiante'];
+
+    // Iniciar una transacción
+    $conn->begin_transaction();
+
     try {
-        $nombreBorrar = $_POST['NombreBorrar'] ?? '';
-        $primerApellidoBorrar = $_POST['primerApellidoBorrar'] ?? '';
-        $segundoApellidoBorrar = $_POST['segundoApellidoBorrar'] ?? '';
-        $usuarioBorrar = $_POST['validarUsuario'] ?? '';
-        $boletaBorrar = $_POST['boletaBorrar'] ?? '';
-
-        // Verificar si el estudiante existe
-        $verificar = "SELECT id_estudiante FROM estudiantes 
-                      WHERE nombre = ? AND primer_apellido = ? AND segundo_apellido = ? 
-                      AND usuario = ? AND boleta = ?";
-        $stmt = mysqli_prepare($conexion, $verificar);
-        mysqli_stmt_bind_param($stmt, 'sssss', $nombreBorrar, $primerApellidoBorrar, $segundoApellidoBorrar, $usuarioBorrar, $boletaBorrar);
-
-        if (!mysqli_stmt_execute($stmt)) {
-            throw new Exception('Error al verificar los datos: ' . mysqli_error($conexion));
+        // Eliminar la solicitud asociada al estudiante
+        $sqlSolicitud = "DELETE FROM solicitudes WHERE id_estudiante = ?";
+        $stmtSolicitud = $conn->prepare($sqlSolicitud);
+        if (!$stmtSolicitud) {
+            throw new Exception("Error en la preparación de la consulta SQL: " . $conn->error);
         }
+        $stmtSolicitud->bind_param("i", $idEstudiante);
+        $stmtSolicitud->execute();
 
-        $resultado = mysqli_stmt_get_result($stmt);
-
-        if (mysqli_num_rows($resultado) === 0) {
-            throw new Exception('El estudiante no existe o los datos son incorrectos.');
+        // Eliminar el registro del estudiante
+        $sqlRegistro = "DELETE FROM estudiantes WHERE boleta = ?";
+        $stmtRegistro = $conn->prepare($sqlRegistro);
+        if (!$stmtRegistro) {
+            throw new Exception("Error en la preparación de la consulta SQL: " . $conn->error);
         }
+        $stmtRegistro->bind_param("s", $boleta);
+        $stmtRegistro->execute();
 
-        $fila = mysqli_fetch_assoc($resultado);
-        $idEstudiante = $fila['id_estudiante'];
-
-        // Eliminar los registros relacionados en la tabla solicitudes
-        $eliminarSolicitudes = "DELETE FROM solicitudes WHERE id_estudiante = ?";
-        $stmtSolicitudes = mysqli_prepare($conexion, $eliminarSolicitudes);
-        mysqli_stmt_bind_param($stmtSolicitudes, 'i', $idEstudiante);
-
-        if (!mysqli_stmt_execute($stmtSolicitudes)) {
-            throw new Exception('Error al eliminar los registros de solicitudes: ' . mysqli_error($conexion));
-        }
-
-        // Eliminar el registro de la tabla estudiantes
-        $eliminarEstudiante = "DELETE FROM estudiantes WHERE id_estudiante = ?";
-        $stmtEstudiantes = mysqli_prepare($conexion, $eliminarEstudiante);
-        mysqli_stmt_bind_param($stmtEstudiantes, 'i', $idEstudiante);
-
-        if (!mysqli_stmt_execute($stmtEstudiantes)) {
-            throw new Exception('Error al eliminar el estudiante: ' . mysqli_error($conexion));
-        }
-
-        $_SESSION['success'] = 'El estudiante y sus registros relacionados han sido eliminados correctamente.';
-        header('location: ../../html/admon.php');
-        exit;
+        // Confirmar la transacción
+        $conn->commit();
+        $_SESSION['message'] = "El registro y la solicitud del estudiante con la boleta $boleta se han eliminado correctamente.";
     } catch (Exception $e) {
-        $_SESSION['error'] = $e->getMessage();
-        header('location: ../../html/admon.php');
-        exit;
-    } finally {
-        mysqli_close($conexion);
+        // Revertir la transacción en caso de error
+        $conn->rollback();
+        $_SESSION['message'] = "Error al eliminar los registros: " . $e->getMessage();
+    }
+
+    // Cerrar las declaraciones
+    if (isset($stmtSolicitud)) {
+        $stmtSolicitud->close();
+    }
+    if (isset($stmtRegistro)) {
+        $stmtRegistro->close();
     }
 } else {
-    $_SESSION['error'] = 'Método HTTP no permitido.';
-    header('location: ../../html/admon.php');
-    exit;
+    $_SESSION['message'] = "No se encontró un estudiante con la boleta $boleta.";
 }
+
+$stmtGetId->close();
+$conn->close();
+
+// Redirigir a la página de administración con el mensaje de la sesión
+header("Location: ../../html/admon.php");
+exit();
 ?>
