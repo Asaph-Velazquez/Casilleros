@@ -410,7 +410,7 @@ if (isset($_SESSION['error'])) {
 
             <!-- Mostrar resultados en tabla -->
             <?php if (isset($registroEncontrado) && $registroEncontrado): ?>
-                <div class="contenedorTabla" style="background-color: turquoise;">
+                <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
