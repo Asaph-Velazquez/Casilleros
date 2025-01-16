@@ -7,7 +7,10 @@ for (let i = 100; i >= 1; i--) {
     // Creamos un botón
     const button = document.createElement("button");
     button.textContent = `Casillero ${i}`;
-
+     // Aplicamos estilo directamente
+     button.style.width = "17px"; // Ajusta el ancho a tu necesidad
+     button.style.height = "50px"; // Opcional: establece la altura
+     button.style.backgroundColor = "green"; // Color de fondo
     // Lo añadimos al contenedor
     buttonContainer.appendChild(button);
 }
