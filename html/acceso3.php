@@ -140,12 +140,31 @@ $_SESSION['descargar'] = 'N';
     </footer>
     <script>
         const btnGenerarAcuse = document.getElementById("generarAcuse");
+        const btnCerrarSesion = document.getElementById("cerrarSesion");
 
         btnGenerarAcuse.addEventListener('click', () => {
             const nuevaP = window.open('../php/genPDF.php', '_blank');
             const boleta = "<?php echo $datosUsuario['boleta']; ?>";
             const nombreArchivo = boleta + ".pdf";
             nuevaP.document.title = nombreArchivo; // Establecer el nombre como título de la pestaña
+        });
+
+        btnCerrarSesion.addEventListener('click', () => {
+            fetch('../php/cerrarSesionUser.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'logout=1'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = 'PagPrincipal.html';
+                    } else {
+                        console.error('Error al cerrar sesión');
+                    }
+                })
+                .catch(error => console.error('Error de red:', error));
         });
     </script>
 </body>
