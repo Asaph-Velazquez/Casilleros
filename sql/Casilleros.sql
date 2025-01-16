@@ -15,6 +15,14 @@ CREATE TABLE estudiantes (
     horario VARCHAR(255) -- Ruta al archivo de horario
 );
 
+-- Tabla casilleros
+CREATE TABLE casilleros (
+    id_Casillero INT AUTO_INCREMENT PRIMARY KEY,
+    numero_casillero INT NOT NULL UNIQUE,
+    estatus ENUM('Disponible', 'No disponible') NOT NULL DEFAULT 'Disponible',
+    altura DECIMAL(3,2) DEFAULT NULL -- Permite que la altura sea NULL
+);
+
 -- Tabla solicitudes
 CREATE TABLE solicitudes (
     id_solicitud INT AUTO_INCREMENT PRIMARY KEY,
@@ -22,7 +30,7 @@ CREATE TABLE solicitudes (
     tipo_solicitud ENUM('Registro', 'Renovación') NOT NULL,
     casillero_anterior INT,
     estatus ENUM('Pendiente', 'Asignado', 'Lista de espera') NOT NULL DEFAULT 'Pendiente',
-    numero_casillero INT CHECK (numero_casillero <= 100),
+    numero_casillero INT,
     fecha_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id_estudiante),
     FOREIGN KEY (numero_casillero) REFERENCES casilleros(numero_casillero)
