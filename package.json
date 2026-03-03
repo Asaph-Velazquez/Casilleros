@@ -1,0 +1,26 @@
+{
+  "name": "escom-casilleros",
+  "version": "1.0.0",
+  "description": "Sistema de asignación de casilleros para estudiantes ESCOM-IPN",
+  "main": "index.html",
+  "scripts": {
+    "lint": "prettier --write .",
+    "format": "prettier --check ."
+  },
+  "keywords": [
+    "php",
+    "mysql",
+    "bootstrap",
+    "escom",
+    "ipn"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.0",
+    "@popperjs/core": "^2.11.8"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.0"
+  }
+}
